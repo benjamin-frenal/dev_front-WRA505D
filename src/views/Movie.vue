@@ -1,11 +1,11 @@
 <template>
   <main v-if="movie">
     <div class="category-details">
-      <img src="@/assets/img/miniature/les-simpson.png" alt="" class="logo">
+      <img :src="movie.logo" :alt="movie.title" class="logo">
       <div class="time">
         <img src="@/assets/img/dummies/ad.png" alt="">
         <img src="@/assets/img/dummies/cc.png" alt="">
-        {{ movie.releaseDate }} • {{ movie.duration }}
+        {{ formatDate(movie.releaseDate) }} • {{ movie.duration }} minutes
       </div>
       <div class="categorie">
         {{ movie.category.name }}
@@ -24,7 +24,7 @@
       </ul>
     </div>
     <div class="movie-background">
-      <img :src="movie.image" :alt="movie.title">
+      <img :src="movie.background" :alt="movie.title">
       <div class="contour"></div>
     </div>
   </main>
@@ -64,6 +64,16 @@ onMounted(async () => {
     console.error('Error fetching movie:', error)
   }
 })
+
+import dayjs from 'dayjs';
+import 'dayjs/locale/fr'; // Importez la locale française
+
+const props = defineProps(['movie']);
+
+const formatDate = (date) => {
+  dayjs.locale('fr'); // Définissez la locale française
+  return dayjs(date).format('DD MMMM YYYY');
+};
 </script>
 
 <style scoped>

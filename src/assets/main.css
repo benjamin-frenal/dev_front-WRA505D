@@ -503,7 +503,9 @@ body{
       left: 15%;
       background-color: rgba(18, 20, 31, 1);
       padding: 50px;
-      box-shadow: 0 0 25px 500px rgba(18, 20, 31, 0.5);
+      box-shadow: 0 0 25px 500px rgba(18, 20, 31, 0.75);
+      border-radius: 40px;
+      border: 1px solid rgb(70, 72, 84);
       & h2{
         margin: 0 auto 35px auto;
         text-align: center;
