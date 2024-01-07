@@ -19,7 +19,7 @@
           <div class="contour" v-for="movie in movies" :key="movie.id" >
             <div class="div" style="color: white">
               <a :href="'movie/' + movie.id" class="movie-bloc">
-                <img :src="movie.image" :alt="movie.title">
+                <img :src="movie.miniature" :alt="movie.title">
               </a>
             </div>
             <div class="options">
