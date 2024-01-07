@@ -17,20 +17,20 @@
         <div class="movies">
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/les-simpson.jpeg" alt="">
+              <img src="../assets/img/miniatures/les-simpson.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/greys-anatomy.jpeg" alt="">
+              <img src="../assets/img/miniatures/greys-anatomy.jpeg" alt="">
             </div></div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/desperate-housewives.jpeg" alt="">
+              <img src="../assets/img/miniatures/desperate-housewives.jpeg" alt="">
             </div></div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/malcolm.jpeg" alt="">
+              <img src="@/assets/img/miniatures/malcolm.jpeg" alt="">
             </div></div>
         </div>
       </div>
@@ -41,22 +41,22 @@
         <div class="movies">
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/les-simpson.jpeg" alt="">
+              <img src="../assets/img/miniatures/les-simpson.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/greys-anatomy.jpeg" alt="">
+              <img src="../assets/img/miniatures/greys-anatomy.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/desperate-housewives.jpeg" alt="">
+              <img src="../assets/img/miniatures/desperate-housewives.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/malcolm.jpeg" alt="">
+              <img src="@/assets/img/miniatures/malcolm.jpeg" alt="">
             </div>
           </div>
         </div>
@@ -68,77 +68,77 @@
         <div class="movies">
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/les-simpson.jpeg" alt="">
+              <img src="../assets/img/miniatures/les-simpson.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/greys-anatomy.jpeg" alt="">
+              <img src="../assets/img/miniatures/greys-anatomy.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/desperate-housewives.jpeg" alt="">
+              <img src="../assets/img/miniatures/desperate-housewives.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/malcolm.jpeg" alt="">
+              <img src="@/assets/img/miniatures/malcolm.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/bluey.jpeg" alt="">
+              <img src="@/assets/img/miniatures/bluey.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/modern-family.jpeg" alt="">
+              <img src="../assets/img/miniatures/modern-family.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/loki.jpeg" alt="">
+              <img src="@/assets/img/miniatures/loki.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/esprit-criminels.jpeg" alt="">
+              <img src="../assets/img/miniatures/esprit-criminels.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/american-dad.jpeg" alt="">
+              <img src="@/assets/img/miniatures/american-dad.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/ma-famille-dabord.jpeg" alt="">
+              <img src="@/assets/img/miniatures/ma-famille-dabord.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/how-i-met-your-mother.jpeg" alt="">
+              <img src="@/assets/img/miniatures/how-i-met-your-mother.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/ahsoka.jpeg" alt="">
+              <img src="@/assets/img/miniatures/ahsoka.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/futurama.jpeg" alt="">
+              <img src="@/assets/img/miniatures/futurama.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/les-griffin.jpeg" alt="">
+              <img src="../assets/img/miniatures/les-griffin.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/prison-break.jpeg" alt="">
+              <img src="../assets/img/miniatures/prison-break.jpeg" alt="">
             </div>
           </div>
         </div>
@@ -150,77 +150,77 @@
         <div class="movies">
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/les-simpson.jpeg" alt="">
+              <img src="../assets/img/miniatures/les-simpson.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/greys-anatomy.jpeg" alt="">
+              <img src="../assets/img/miniatures/greys-anatomy.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/desperate-housewives.jpeg" alt="">
+              <img src="../assets/img/miniatures/desperate-housewives.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/malcolm.jpeg" alt="">
+              <img src="@/assets/img/miniatures/malcolm.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/bluey.jpeg" alt="">
+              <img src="@/assets/img/miniatures/bluey.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/modern-family.jpeg" alt="">
+              <img src="../assets/img/miniatures/modern-family.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/loki.jpeg" alt="">
+              <img src="@/assets/img/miniatures/loki.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/esprit-criminels.jpeg" alt="">
+              <img src="../assets/img/miniatures/esprit-criminels.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/american-dad.jpeg" alt="">
+              <img src="@/assets/img/miniatures/american-dad.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/ma-famille-dabord.jpeg" alt="">
+              <img src="@/assets/img/miniatures/ma-famille-dabord.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/how-i-met-your-mother.jpeg" alt="">
+              <img src="@/assets/img/miniatures/how-i-met-your-mother.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/ahsoka.jpeg" alt="">
+              <img src="@/assets/img/miniatures/ahsoka.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/futurama.jpeg" alt="">
+              <img src="@/assets/img/miniatures/futurama.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/les-griffin.jpeg" alt="">
+              <img src="../assets/img/miniatures/les-griffin.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/prison-break.jpeg" alt="">
+              <img src="../assets/img/miniatures/prison-break.jpeg" alt="">
             </div>
           </div>
         </div>
@@ -232,77 +232,77 @@
         <div class="movies">
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/les-simpson.jpeg" alt="">
+              <img src="../assets/img/miniatures/les-simpson.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/greys-anatomy.jpeg" alt="">
+              <img src="../assets/img/miniatures/greys-anatomy.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/desperate-housewives.jpeg" alt="">
+              <img src="../assets/img/miniatures/desperate-housewives.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/malcolm.jpeg" alt="">
+              <img src="@/assets/img/miniatures/malcolm.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/bluey.jpeg" alt="">
+              <img src="@/assets/img/miniatures/bluey.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/modern-family.jpeg" alt="">
+              <img src="../assets/img/miniatures/modern-family.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/loki.jpeg" alt="">
+              <img src="@/assets/img/miniatures/loki.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/esprit-criminels.jpeg" alt="">
+              <img src="../assets/img/miniatures/esprit-criminels.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/american-dad.jpeg" alt="">
+              <img src="@/assets/img/miniatures/american-dad.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/ma-famille-dabord.jpeg" alt="">
+              <img src="@/assets/img/miniatures/ma-famille-dabord.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/how-i-met-your-mother.jpeg" alt="">
+              <img src="@/assets/img/miniatures/how-i-met-your-mother.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/ahsoka.jpeg" alt="">
+              <img src="@/assets/img/miniatures/ahsoka.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="@/assets/img/futurama.jpeg" alt="">
+              <img src="@/assets/img/miniatures/futurama.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/les-griffin.jpeg" alt="">
+              <img src="../assets/img/miniatures/les-griffin.jpeg" alt="">
             </div>
           </div>
           <div class="contour">
             <div class="movie-bloc">
-              <img src="../assets/img/prison-break.jpeg" alt="">
+              <img src="../assets/img/miniatures/prison-break.jpeg" alt="">
             </div>
           </div>
         </div>
