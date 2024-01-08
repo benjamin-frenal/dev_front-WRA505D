@@ -332,36 +332,48 @@ body{
           color: #D2D2D2;
         }
         .select{
-          margin-top: 6px;
-          font-family: "Orkney-Light", sans-serif;
-          font-size: 14px;
-          color: #DCDCDC;
-          width: 125px;
-          align-items: center;
-          background-color: rgba(182, 182, 182, 0.2);
-          border-radius: 18px;
-          box-shadow: none;
-          cursor: pointer;
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: space-between;
-          min-height: 0;
           position: relative;
-          transition: all 0.3s ease 0s;
-          box-sizing: border-box;
-          border: none;
-          padding: 2px 12px 0 18px;
-          height: 36px;
-          outline: 0 !important;
-          & svg{
+          >select{
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            text-indent: 1px;
+            text-overflow: '';
+            margin-top: 6px;
+            font-family: "Orkney-Light", sans-serif;
+            font-size: 14px;
+            color: #DCDCDC;
+            align-items: center;
+            background-color: rgba(182, 182, 182, 0.2);
+            border-radius: 18px;
+            box-shadow: none;
+            cursor: pointer;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            min-height: 0;
+            position: relative;
+            transition: all 0.3s ease 0s;
+            box-sizing: border-box;
+            border: none;
+            padding: 2px 40px 0 18px;
+            height: 36px;
+            outline: 0 !important;
+            &:hover{
+              background-color: #0F1017;
+            }
+          }
+          &::after{
+            content: '';
+            position: absolute;
+            top: calc(50% + 3px);
+            pointer-events: none;
+            right: 12px;
+            transform: translateY(-50%);
+            background: url("/src/assets/img/dummies/arrow.svg") no-repeat center;
             height: 20px;
             min-width: 20px;
             width: 20px;
-            z-index: auto;
-            fill: white;
-          }
-          &:hover{
-            background-color: #0F1017;
           }
         }
       }
