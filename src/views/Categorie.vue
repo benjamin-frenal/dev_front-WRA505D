@@ -6,7 +6,6 @@
       </div>
     </div>
     <div class="category-details">
-      <h2>Films associés :</h2>
       <ul>
         <li v-for="movie in category.movies" :key="movie['@id']">
           {{ movie.title }}
