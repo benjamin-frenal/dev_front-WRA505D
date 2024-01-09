@@ -424,7 +424,7 @@ body{
         }
       }
     }
-    .list-film, .list-acteurs{
+    .list-film{
       margin: 0 55px 40px;
       .container-movies{
         .movies{
@@ -451,7 +451,7 @@ body{
         }
       }
     }
-    .list-categories{
+    .list-categories, .list-acteurs{
       padding: 0 calc(3.5vw + 24px);
       margin-bottom: 40px;
 
@@ -462,6 +462,27 @@ body{
         .bloc-categorie{
           padding: 0;
           height: 174px;
+        }
+      }
+    }
+    .list-acteurs{
+      position: relative;
+      .bloc-categorie{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: auto!important;
+        row-gap: 20px;
+        .image{
+          border-radius: 10px;
+          margin-top: 20px;
+          aspect-ratio: 3/4;
+          object-fit: cover;
+          width: 80%;
+          text-align: center;
+        }
+        >div{
+          margin-bottom: 20px;
         }
       }
     }
