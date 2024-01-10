@@ -5,6 +5,7 @@
         <h1>Films</h1>
         <form  class="select" action="">
           <select name="categories" id="categories">
+            <option value="default">Tous les films</option>
             <option v-for="category in categories" :key="category.id" :value="category.id">
               {{ category.name }}
             </option>
