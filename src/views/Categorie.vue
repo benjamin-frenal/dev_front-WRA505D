@@ -5,13 +5,23 @@
         <h1>{{ category.name }}</h1>
       </div>
     </div>
-    <div class="category-details">
-      <ul>
-        <li v-for="movie in category.movies" :key="movie['@id']">
-          {{ movie.title }}
-        </li>
-      </ul>
-    </div>
+    <section class="list-film">
+      <div class="container-movies">
+        <div class="movies">
+          <div class="contour" v-for="movie in category.movies" :key="movie['@id']">
+            <div class="div" style="color: white">
+              <a :href="'/movie/' + movie.id" class="movie-bloc">
+                <img :src="movie.miniature" :alt="movie.title">
+              </a>
+            </div>
+            <div class="texte">
+              <p>{{movie.title}}</p>
+              <p class="description">{{movie.description}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
   <div v-else>
     Chargement...
