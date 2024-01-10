@@ -33,7 +33,8 @@
                 Duree : <span>{{ movie.duration }} min</span>
               </div>
               <div class="infos">
-                Categorie : <span>{{ movie.category.name }}</span>
+                Categorie : <span></span>
+                <a :href="'/categorie/' + movie.category.id">{{ movie.category.name }}</a>
               </div>
             </div>
             <div class="right">
@@ -44,7 +45,7 @@
                 Acteur :
                 <ul>
                   <li v-for="actor in movie.actors" :key="actor['@id']">
-                    {{ actor.firstName }} {{ actor.lastName }}
+                    <a :href="'/actor/' + actor.id">{{ actor.firstName }} {{ actor.lastName }}</a>
                   </li>
                 </ul>
               </div>

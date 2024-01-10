@@ -424,7 +424,7 @@ body{
         }
       }
     }
-    .list-film, .list-acteurs{
+    .list-film{
       margin: 0 55px 40px;
       .container-movies{
         .movies{
@@ -451,7 +451,7 @@ body{
         }
       }
     }
-    .list-categories{
+    .list-categories, .list-acteurs{
       padding: 0 calc(3.5vw + 24px);
       margin-bottom: 40px;
 
@@ -462,6 +462,27 @@ body{
         .bloc-categorie{
           padding: 0;
           height: 174px;
+        }
+      }
+    }
+    .list-acteurs{
+      position: relative;
+      .bloc-categorie{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: auto!important;
+        row-gap: 20px;
+        .image{
+          border-radius: 10px;
+          margin-top: 20px;
+          aspect-ratio: 3/4;
+          object-fit: cover;
+          width: 80%;
+          text-align: center;
+        }
+        >div{
+          margin-bottom: 20px;
         }
       }
     }
@@ -759,13 +780,57 @@ body{
       position: fixed;
       z-index: -1;
       inset: 0;
-      img{
+      >img{
         width: 100vw;
       }
       .contour{
         position: absolute;
         inset: 0;
         background-image: radial-gradient(farthest-side at 73% 21%, transparent, rgb(26, 29, 41));
+      }
+    }
+    .single-acteur{
+      padding: 0 calc(3.5vw + 24px);
+      display: flex;
+      gap: 76px;
+      margin-top: 20px;
+      color: white;
+      .cover{
+        position: relative;
+        width: 25%;
+       >img{
+          border-radius: 10px;
+          aspect-ratio: 3/4;
+          object-fit: cover;
+          text-align: center;
+        }
+        &::after{
+            position: absolute;
+            content: '';
+            top: 0;
+            right: -48px;
+            width: 1px;
+            bottom: 20px;
+            background-color: #e2e2e2;
+        }
+      }
+      .films-link{
+        margin-bottom: 20px;
+        >h2{
+          margin: 0 0 32px 20px;
+          font-size: 32px;
+        }
+        .container-movies{
+          position: relative;
+          width: 100%;
+          .movies{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+          }
+          &::after{
+            display: none;
+          }
+        }
       }
     }
   }

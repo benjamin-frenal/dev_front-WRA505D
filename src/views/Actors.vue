@@ -5,13 +5,14 @@
         <h1>Acteurs</h1>
       </div>
     </div>
-    <section class="list-acteurs">
-      <div class="container-movies">
-        <div v-for="actor in data" :key="index">
-          <p>{{ actor.firstName }} {{ actor.lastName }}</p>
-        </div>
+    <div class="list-acteurs">
+      <div class="bloc-categories">
+        <a :href="'actor/' + actor.id" class="bloc-categorie" v-for="actor in data" :key="actor.id">
+          <img :src="actor.image" class="image" alt="">
+          <div>{{ actor.firstName }} {{ actor.lastName }}</div>
+        </a>
       </div>
-    </section>
+    </div>
   </main>
 </template>
 
