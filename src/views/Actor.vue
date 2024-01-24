@@ -14,17 +14,7 @@
         <div class="films-link-list">
           <div class="container-movies">
             <div class="movies">
-              <div class="contour" v-for="movie in author.movies" :key="movie['@id']">
-            <div class="div" style="color: white">
-              <a :href="'/movie/' + movie.id" class="movie-bloc">
-                <img :src="movie.miniature" :alt="movie.title">
-              </a>
-            </div>
-            <div class="texte">
-              <p>{{movie.title}}</p>
-              <p class="description">{{movie.description}}</p>
-            </div>
-          </div>
+              <MovieCard v-for="movie in author.movies" :movie="movie" />
             </div>
           </div>
         </div>
@@ -44,6 +34,7 @@
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import MovieCard from "@/components/MovieCard.vue";
 
 let author = ref(null)
 
