@@ -624,7 +624,7 @@ body{
       }
       .time{
         display: flex;
-        align-items: center;
+        align-items: end;
         margin-bottom: 5px;
         & img{
           height: 20px;
