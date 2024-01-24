@@ -1,6 +1,6 @@
 <template>
   <main>
-    <img src="@/assets/banner-home.png" alt="" style="width: 100%; margin-top: 18px">
+    <h1>Bienvenue sur mon Projet Application "Movies" - Benjamin Frenal S5 F</h1>
     <section class="home-categorie">
       <div class="bloc-categories">
         <a :href="'categorie/' + category.id" class="bloc-categorie" v-for="category in categories" :key="category.id">
@@ -12,25 +12,18 @@
       <h2>Nos quatre derniers films</h2>
       <div class="container-movies">
         <div class="movies">
-          <div class="contour" v-for="movie in movies" :key="movie.id" >
-            <div class="div" style="color: white">
-              <a :href="'movie/' + movie.id" class="movie-bloc">
-                <img :src="movie.miniature" :alt="movie.title">
-              </a>
-            </div>
-            <div class="texte">
-              <p>{{movie.title}}</p>
-              <p class="description">{{movie.description}}</p>
-            </div>
-          </div>
+          <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie" />
         </div>
       </div>
     </section>
     <section class="quatre-acteurs">
       <h2>Nos quatre derniers acteurs</h2>
-      <div class="container-movies">
-        <div v-for="actor in actors" :key="actor.id">
-          <p>{{ actor.firstName }} {{ actor.lastName }}</p>
+      <div class="list-acteurs">
+        <div class="bloc-categories">
+          <a :href="'actor/' + actor.id" class="bloc-categorie" v-for="actor in actors" :key="actor.id">
+            <img :src="actor.image" class="image" alt="">
+            <p>{{ actor.firstName }} {{ actor.lastName }}</p>
+          </a>
         </div>
       </div>
     </section>
@@ -287,11 +280,20 @@
   *{
     color: white;
   }
+  h1{
+    text-align: center;
+    margin: 172px 0 100px;
+  }
+  .list-acteurs{
+    margin-top: 20px;
+    padding: 0!important;
+  }
 </style>
 
 <script setup>
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
+import MovieCard from '@/components/MovieCard.vue';
 
 let categories = ref([]);
 let movies = ref([]);
