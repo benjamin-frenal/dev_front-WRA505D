@@ -549,11 +549,16 @@ body{
         font-family: "Orkney-Light", sans-serif;
         color: white;
         font-weight: 400;
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
         .form-group{
           position: relative;
           display: flex;
           align-items: center;
           column-gap: 10px;
+        }
+        .form-group-pen{
           &::after{
             position: absolute;
             content: '\f304';
@@ -564,10 +569,20 @@ body{
             font-size: 16px;
           }
         }
+        .grid-group{
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 20px;
+          .form-group{
+            flex-direction: column;
+            align-items: start;
+            width: 100%;
+          }
+        }
         & label{
           color: white;
         }
-        & input{
+        & input, & textarea{
           border: 1px solid white;
           color: white;
           flex: 1;
@@ -576,6 +591,10 @@ body{
           font-weight: 400;
           font-size: 16px;
           padding: 10px;
+        }
+        & textarea{
+          min-height: 20px;
+          max-height: 100px;
         }
       }
       .btn{
