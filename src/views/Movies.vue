@@ -42,8 +42,8 @@
       </div>
       <div :class="[{ 'd-none Jmodal-modif': !selectedMovieId }, 'modal_modif']">
         <h2 v-if="selectedMovie">{{ selectedMovie.title }}</h2>
-        <form @submit.prevent="updateMovieTitle">
-          <div class="form-group">
+        <form class="modal_form" @submit.prevent="updateMovieDetails">
+          <div class="form-group form-group-pen">
             <label for="editMovieTitle">Titre du film :</label>
             <input
                 type="text"
@@ -52,6 +52,54 @@
                 v-if="selectedMovie"
                 v-model="editedMovieTitle"
             />
+          </div>
+          <div class="form-group form-group-pen">
+            <label for="editMovieDescription">Description du film :</label>
+            <textarea
+                class="form-control"
+                id="editMovieDescription"
+                v-if="selectedMovie"
+                v-model="editedMovieDescription"
+            ></textarea>
+          </div>
+          <div class="grid-group">
+            <div class="form-group">
+              <label for="editMovieDuration">Durée du film (en minutes) :</label>
+              <input
+                  type="number"
+                  class="form-control"
+                  id="editMovieDuration"
+                  v-if="selectedMovie"
+                  v-model="editedMovieDuration"
+              />
+            </div>
+            <div class="form-group">
+              <label for="editMovieReleaseDate">Date de sortie :</label>
+              <input
+                  type="date"
+                  class="form-control"
+                  id="editMovieReleaseDate"
+                  v-if="selectedMovie"
+                  v-model="editedMovieReleaseDate"
+              />
+            </div>
+            <div class="form-group">
+              <label for="editMovieCategory">Catégorie du film :</label>
+              <select
+                  class="form-control"
+                  id="editMovieCategory"
+                  v-if="selectedMovie"
+                  v-model="editedMovieCategory"
+              >
+                <option
+                    v-for="category in categories"
+                    :key="category.id"
+                    :value="category.id"
+                >
+                  {{ category.name }}
+                </option>
+              </select>
+            </div>
           </div>
           <button type="submit" class="btn">Valider les modifications</button>
         </form>
@@ -74,11 +122,35 @@ const selectedMovieId = ref(null);
 const movies = ref([]);
 const selectedMovie = computed(() => movies.value.find(movie => movie.id === selectedMovieId.value));
 const editedMovieTitle = ref('');
+const editedMovieDescription = ref('');
+const editedMovieDuration = ref('');
+const editedMovieReleaseDate = ref('');
+const editedMovieCategory = ref('');
 const searchQuery = ref('');
+
+const formatReleaseDate = (dateString) => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Les mois vont de 0 à 11
+  const day = date.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 
 const toggleDetails = (movieId) => {
   selectedMovieId.value = selectedMovieId.value === movieId ? null : movieId;
-  editedMovieTitle.value = selectedMovie.value ? selectedMovie.value.title : '';
+  if (selectedMovie.value) {
+    editedMovieTitle.value = selectedMovie.value.title;
+    editedMovieDescription.value = selectedMovie.value.description;
+    editedMovieDuration.value = selectedMovie.value.duration;
+    editedMovieReleaseDate.value = formatReleaseDate(selectedMovie.value.releaseDate);
+    editedMovieCategory.value = selectedMovie.value.category.id;
+  } else {
+    editedMovieTitle.value = '';
+    editedMovieDescription.value = '';
+    editedMovieDuration.value = '';
+    editedMovieReleaseDate.value = '';
+    editedMovieCategory.value = '';
+  }
 };
 
 const getMovies = async () => {
@@ -109,7 +181,6 @@ const getMovies = async () => {
     console.log(response.data);
     movies.value = response.data;
 
-
     const categoriesresponse = await axios.get('https://127.0.0.1:8000/api/categories', {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -124,9 +195,8 @@ const getMovies = async () => {
   }
 };
 
-
-const updateMovieTitle = async () => {
-  if (selectedMovie.value && editedMovieTitle.value) {
+const updateMovieDetails = async () => {
+  if (selectedMovie.value && (editedMovieTitle.value || editedMovieDescription.value)) {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
@@ -137,7 +207,13 @@ const updateMovieTitle = async () => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/merge-patch+json',
       };
-      const updatedMovie = { title: editedMovieTitle.value };
+      const updatedMovie = {
+        title: editedMovieTitle.value,
+        description: editedMovieDescription.value,
+        duration: editedMovieDuration.value,
+        releaseDate: editedMovieReleaseDate.value,
+        category: `/api/categories/${editedMovieCategory.value}`,
+      };
 
       await axios.patch(
           `https://127.0.0.1:8000/api/movies/${selectedMovie.value.id}`,
@@ -146,10 +222,14 @@ const updateMovieTitle = async () => {
       );
 
       editedMovieTitle.value = '';
-      getMovies();
+      editedMovieDescription.value = '';
+      editedMovieDuration.value = '';
+      editedMovieReleaseDate.value = '';
+      editedMovieCategory.value = '';
       selectedMovieId.value = null;
+      getMovies();
     } catch (error) {
-      console.error('Error updating movie title:', error);
+      console.error('Error updating movie details:', error);
     }
   }
 };
