@@ -591,6 +591,7 @@ body{
           font-weight: 400;
           font-size: 16px;
           padding: 10px;
+          color-scheme: dark;
         }
         & textarea{
           min-height: 20px;
