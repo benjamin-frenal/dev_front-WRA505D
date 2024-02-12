@@ -100,6 +100,24 @@
                 </option>
               </select>
             </div>
+            <div class="form-group">
+              <label for="editMovieActors">Acteurs du film :</label>
+              <select
+                  class="form-control"
+                  id="editMovieActors"
+                  v-if="selectedMovie"
+                  v-model="editedMovieActors"
+                  multiple
+              >
+                <option
+                    v-for="actor in actors"
+                    :key="actor.id"
+                    :value="actor.id"
+                >
+                  {{ actor.firstName }} {{ actor.lastName }}
+                </option>
+              </select>
+            </div>
           </div>
           <button type="submit" class="btn">Valider les modifications</button>
         </form>
@@ -118,6 +136,7 @@ import { onMounted, ref, computed } from 'vue';
 import axios from 'axios';
 
 let categories = ref('')
+let actors = ref('')
 const selectedMovieId = ref(null);
 const movies = ref([]);
 const selectedMovie = computed(() => movies.value.find(movie => movie.id === selectedMovieId.value));
@@ -125,6 +144,7 @@ const editedMovieTitle = ref('');
 const editedMovieDescription = ref('');
 const editedMovieDuration = ref('');
 const editedMovieReleaseDate = ref('');
+const editedMovieActors = ref('');
 const editedMovieCategory = ref('');
 const searchQuery = ref('');
 
@@ -144,12 +164,14 @@ const toggleDetails = (movieId) => {
     editedMovieDuration.value = selectedMovie.value.duration;
     editedMovieReleaseDate.value = formatReleaseDate(selectedMovie.value.releaseDate);
     editedMovieCategory.value = selectedMovie.value.category.id;
+    editedMovieActors.value = selectedMovie.value.actors.map(actor => actor.id);
   } else {
     editedMovieTitle.value = '';
     editedMovieDescription.value = '';
     editedMovieDuration.value = '';
     editedMovieReleaseDate.value = '';
     editedMovieCategory.value = '';
+    editedMovieActors.value = '';
   }
 };
 
@@ -190,6 +212,14 @@ const getMovies = async () => {
 
     categories.value = categoriesresponse.data
 
+    const actorsResponse = await axios.get('https://127.0.0.1:8000/api/authors', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      }
+    })
+    actors.value = actorsResponse.data;
+
   } catch (error) {
     console.error('Error fetching movies:', error);
   }
@@ -213,6 +243,7 @@ const updateMovieDetails = async () => {
         duration: editedMovieDuration.value,
         releaseDate: editedMovieReleaseDate.value,
         category: `/api/categories/${editedMovieCategory.value}`,
+        actors: editedMovieActors.value.map(actorId => `/api/authors/${actorId}`)
       };
 
       await axios.patch(
