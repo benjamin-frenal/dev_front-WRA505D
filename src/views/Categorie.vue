@@ -55,6 +55,7 @@ onMounted(async () => {
     })
 
     category.value = response.data
+    console.log(response.data);
   } catch (error) {
     console.error('Error fetching category:', error)
   }
