@@ -4,12 +4,13 @@
       <div class="flex">
         <h1>Films</h1>
         <form  class="select" action="">
-          <select name="categories" id="categories">
+          <select name="categories" id="categories" @change="updateCategory($event.target.value)">
             <option value="default">Tous les films</option>
             <option v-for="category in categories" :key="category.id" :value="category.id">
               {{ category.name }}
             </option>
           </select>
+
         </form>
         <form class="search-form" action="http://127.0.0.1:5173/movies" method="get">
           <input type="text" name="title" placeholder="Entrez un titre" v-model="searchQuery">
@@ -23,7 +24,22 @@
     <section class="list-film">
       <div class="container-movies">
         <div class="movies">
-          <div class="contour" v-for="movie in movies" :key="movie.id" >
+          <div v-if="selectedCategoryId !== 'default'" class="contour" v-for="movie in movies.movies" :key="movie['@id']">
+            <div class="div" style="color: white">
+              <a :href="'movie/' + movie.id" class="movie-bloc">
+                <img :src="movie.miniature" :alt="movie.title">
+              </a>
+            </div>
+            <div class="options">
+              <a @click="toggleDetails(movie.id)"><i class="fa-solid fa-pen"></i></a>
+              <a @click="toggleTrash(movie.id)"><i class="fa-solid fa-trash"></i></a>
+            </div>
+            <div class="texte">
+              <p>{{movie.title}}</p>
+              <p class="description">{{movie.description}}</p>
+            </div>
+          </div>
+          <div v-else class="contour" v-for="movie in movies" :key="movie['@id']">
             <div class="div" style="color: white">
               <a :href="'movie/' + movie.id" class="movie-bloc">
                 <img :src="movie.miniature" :alt="movie.title">
@@ -137,9 +153,16 @@ import axios from 'axios';
 
 let categories = ref('')
 let actors = ref('')
+const selectedCategoryId = ref('default');
 const selectedMovieId = ref(null);
 const movies = ref([]);
-const selectedMovie = computed(() => movies.value.find(movie => movie.id === selectedMovieId.value));
+const selectedMovie = computed(() => {
+  if (Array.isArray(movies.value)) {
+    return movies.value.find(movie => movie.id === selectedMovieId.value);
+  } else {
+    return null;
+  }
+});
 const editedMovieTitle = ref('');
 const editedMovieDescription = ref('');
 const editedMovieDuration = ref('');
@@ -191,7 +214,12 @@ const getMovies = async () => {
       apiParams[key] = value;
     });
 
-    const apiUrl = `https://127.0.0.1:8000/api/movies?${new URLSearchParams(apiParams)}`;
+    let apiUrl = 'https://127.0.0.1:8000/api/movies';
+
+    if (selectedCategoryId.value !== 'default') {
+      apiUrl = `https://127.0.0.1:8000/api/categories/${selectedCategoryId.value}`;
+
+    }
 
     const response = await axios.get(apiUrl, {
       headers: {
@@ -208,16 +236,16 @@ const getMovies = async () => {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
       }
-    })
+    });
 
-    categories.value = categoriesresponse.data
+    categories.value = categoriesresponse.data;
 
     const actorsResponse = await axios.get('https://127.0.0.1:8000/api/authors', {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
       }
-    })
+    });
     actors.value = actorsResponse.data;
 
   } catch (error) {
@@ -267,6 +295,11 @@ const updateMovieDetails = async () => {
 
 const closeModal = () => {
   selectedMovieId.value = null;
+};
+
+const updateCategory = (categoryId) => {
+  selectedCategoryId.value = categoryId;
+  getMovies();
 };
 
 onMounted(() => {
