@@ -159,10 +159,13 @@ const movies = ref([]);
 const selectedMovie = computed(() => {
   if (Array.isArray(movies.value)) {
     return movies.value.find(movie => movie.id === selectedMovieId.value);
+  } else if (movies.value && movies.value.movies) {
+    return movies.value.movies.find(movie => movie.id === selectedMovieId.value);
   } else {
     return null;
   }
 });
+
 const editedMovieTitle = ref('');
 const editedMovieDescription = ref('');
 const editedMovieDuration = ref('');
@@ -195,6 +198,7 @@ const toggleDetails = (movieId) => {
     editedMovieReleaseDate.value = '';
     editedMovieCategory.value = '';
     editedMovieActors.value = '';
+    console.log(editedMovieCategory.value);
   }
 };
 
@@ -218,7 +222,6 @@ const getMovies = async () => {
 
     if (selectedCategoryId.value !== 'default') {
       apiUrl = `https://127.0.0.1:8000/api/categories/${selectedCategoryId.value}`;
-
     }
 
     const response = await axios.get(apiUrl, {
