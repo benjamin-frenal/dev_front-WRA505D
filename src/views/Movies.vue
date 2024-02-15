@@ -198,6 +198,14 @@
                   </option>
                 </select>
               </div>
+              <div class="form-group">
+                <label for="actors">Acteurs :</label>
+                <select id="actors" v-model="newMovie.actors" multiple required>
+                  <option v-for="actor in actors" :key="actor.id" :value="actor.id">
+                    {{ actor.firstName }} {{ actor.lastName }}
+                  </option>
+                </select>
+              </div>
             </div>
 
             <button class="btn" type="submit">Ajouter</button>
@@ -252,6 +260,7 @@ const newMovie = ref({
   background: '',
   logo: '',
   category: '',
+  actors: [],
 });
 
 const openAddModal = () => {
@@ -286,7 +295,8 @@ const addMovie = async () => {
       miniature: '',
       background: '',
       logo: '',
-      category_id: '',
+      category: '',
+      actors: [],
     };
     showAddModal.value = false;
 
