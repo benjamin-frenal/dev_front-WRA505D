@@ -4,6 +4,20 @@
       <div class="flex">
         <h1>Categories</h1>
 
+        <div :class="[{ 'd-none Jmodal-modif': !showModal }, 'modal_modif']">
+          <div class="modal-content">
+            <span class="close" @click="showModal = false">&times;</span>
+            <h2>Ajouter une catégorie</h2>
+            <form @submit.prevent="addCategory">
+              <div class="form-group form-group-pen">
+                <label for="newCategoryName">Nom de la catégorie</label>
+                <input type="text" v-model="newCategoryName" placeholder="Nom de la catégorie" required>
+              </div>
+              <button class="btn" type="submit">Ajouter</button>
+            </form>
+          </div>
+        </div>
+
         <form class="search-form" action="http://127.0.0.1:5173/movies" method="get">
           <input type="text" name="title" placeholder="Entrez un titre" v-model="searchQuery">
           <div class="icons">
@@ -11,6 +25,8 @@
             <a v-if="searchQuery" href="/movies"><i class="fa-solid fa-xmark"></i></a>
           </div>
         </form>
+        <button class="btn-add" @click="showModal = true">Ajouter une catégorie</button>
+
       </div>
     </div>
     <div class="list-categories">
@@ -29,6 +45,8 @@ import { onMounted, ref } from 'vue'
 import axios from 'axios'
 
 let data = ref('')
+let showModal = ref(false)
+let newCategoryName = ref('')
 
 onMounted(async () => {
   try {
@@ -50,4 +68,29 @@ onMounted(async () => {
     console.error('Error fetching categories:', error)
   }
 })
+const addCategory = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token){
+      this.$router.push('/');
+      return;
+    }
+
+    const response = await axios.post('https://127.0.0.1:8000/api/categories', {
+      name: newCategoryName.value
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      }
+    })
+
+    // Mettre à jour la liste des catégories après l'ajout de la nouvelle catégorie
+    data.value.push(response.data)
+    showModal.value = false // Fermer la modal après l'ajout réussi
+    newCategoryName.value = '' // Effacer le champ de saisie
+  } catch (error) {
+    console.error('Error adding category:', error)
+  }
+}
 </script>
