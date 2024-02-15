@@ -917,3 +917,6 @@ img{
     color: black;
   }
 }
+.sb{
+  justify-content: space-between;
+}
