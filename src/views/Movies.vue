@@ -19,6 +19,7 @@
             <a v-if="searchQuery" href="/movies"><i class="fa-solid fa-xmark"></i></a>
           </div>
         </form>
+        <button class="btn-add" @click="openAddModal">Ajouter un film <i class="fa-solid fa-plus"></i></button>
       </div>
     </div>
     <section class="list-film">
@@ -139,6 +140,70 @@
         </form>
         <div class="close" @click="closeModal"><i class="fa-solid fa-xmark"></i></div>
       </div>
+      <div :class="{ 'd-none Jmodal-modif': !showDeleteModal }" class="modal_modif">
+        <div class="modal-content">
+          <span class="close" @click="closeDeleteModal">&times;</span>
+          <h2>Confirmation de suppression</h2>
+          <p class="sur-delete">Êtes-vous sûr de vouloir supprimer le film "{{ movieToDeleteTitle }}" ?</p>
+          <div class="modal-buttons">
+            <button @click="confirmDelete">Confirmer</button>
+            <button @click="closeDeleteModal">Annuler</button>
+          </div>
+        </div>
+      </div>
+      <div :class="{ 'd-none Jmodal-modif': !showAddModal }" class="modal_modif">
+        <div class="modal-content modal-content-film">
+          <span class="close" @click="closeAddModal">&times;</span>
+          <h2>Ajouter un film</h2>
+          <form @submit.prevent="addMovie">
+            <div class="form-group form-group-pen">
+              <label for="title">Titre :</label>
+              <input type="text" id="title" v-model="newMovie.title" required>
+            </div>
+
+            <div class="form-group form-group-pen">
+              <label for="description">Description :</label>
+              <textarea id="description" v-model="newMovie.description" required></textarea>
+            </div>
+
+            <div class="grid-group">
+              <div class="form-group">
+                <label for="releaseDate">Date de sortie :</label>
+                <input type="date" id="releaseDate" v-model="newMovie.releaseDate" required>
+              </div>
+              <div class="form-group">
+                <label for="duration">Durée (en minutes) :</label>
+                <input type="number" id="duration" v-model="newMovie.duration" required>
+              </div>
+              <div class="form-group">
+                <label for="miniature">Miniature :</label>
+                <input type="text" id="miniature" v-model="newMovie.miniature" required>
+              </div>
+              <div class="form-group">
+                <label for="background">Background :</label>
+                <input type="text" id="background" v-model="newMovie.background" required>
+              </div>
+            </div>
+
+            <div class="grid-group">
+              <div class="form-group">
+                <label for="logo">Logo :</label>
+                <input type="text" id="logo" v-model="newMovie.logo" required>
+              </div>
+              <div class="form-group">
+                <label for="category">Catégorie :</label>
+                <select id="category" v-model="newMovie.category" required>
+                  <option v-for="category in categories" :key="category.id" :value="category['@id']">
+                    {{ category.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <button class="btn" type="submit">Ajouter</button>
+          </form>
+        </div>
+      </div>
     </section>
   </main>
 </template>
@@ -148,14 +213,26 @@
 </style>
 
 <script setup>
-import { onMounted, ref, computed } from 'vue';
+import {onMounted, ref, computed, watch} from 'vue';
 import axios from 'axios';
 
-let categories = ref('')
-let actors = ref('')
+const categories = ref('');
+const actors = ref('');
 const selectedCategoryId = ref('default');
 const selectedMovieId = ref(null);
 const movies = ref([]);
+const searchQuery = ref('');
+const showDeleteModal = ref(false);
+const movieToDeleteId = ref(null);
+const movieToDeleteTitle = ref('');
+const editedMovieTitle = ref('');
+const editedMovieDescription = ref('');
+const editedMovieDuration = ref('');
+const editedMovieReleaseDate = ref('');
+const editedMovieActors = ref('');
+const editedMovieCategory = ref('');
+
+
 const selectedMovie = computed(() => {
   if (Array.isArray(movies.value)) {
     return movies.value.find(movie => movie.id === selectedMovieId.value);
@@ -166,13 +243,149 @@ const selectedMovie = computed(() => {
   }
 });
 
-const editedMovieTitle = ref('');
-const editedMovieDescription = ref('');
-const editedMovieDuration = ref('');
-const editedMovieReleaseDate = ref('');
-const editedMovieActors = ref('');
-const editedMovieCategory = ref('');
-const searchQuery = ref('');
+const showAddModal = ref(false);
+const newMovie = ref({
+  title: '',
+  description: '',
+  duration: '',
+  miniature: '',
+  background: '',
+  logo: '',
+  category: '',
+});
+
+const openAddModal = () => {
+  showAddModal.value = true;
+};
+
+const closeAddModal = () => {
+  showAddModal.value = false;
+};
+
+const addMovie = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.$router.push('/');
+      return;
+    }
+
+    console.log(newMovie.value);
+
+    // Envoyer les données du nouveau film au serveur
+    await axios.post('https://127.0.0.1:8000/api/movies', newMovie.value, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    newMovie.value = {
+      title: '',
+      description: '',
+      duration: '',
+      miniature: '',
+      background: '',
+      logo: '',
+      category_id: '',
+    };
+    showAddModal.value = false;
+
+    // Recharger la liste des films après l'ajout
+    getMovies();
+  } catch (error) {
+    console.error('Error adding movie:', error);
+  }
+};
+
+const toggleTrash = (movieId) => {
+  const movieToDelete = movies.value.find(movie => movie.id === movieId);
+  if (movieToDelete) {
+    movieToDeleteId.value = movieId;
+    movieToDeleteTitle.value = movieToDelete.title;
+    showDeleteModal.value = true;
+  }
+};
+
+const confirmDelete = () => {
+  if (movieToDeleteId.value) {
+    deleteMovie(movieToDeleteId.value);
+    movieToDeleteId.value = null;
+    showDeleteModal.value = false;
+  }
+};
+
+const closeDeleteModal = () => {
+  showDeleteModal.value = false;
+};
+
+const deleteMovie = async (movieId) => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.$router.push('/');
+      return;
+    }
+
+    await axios.delete(`https://127.0.0.1:8000/api/movies/${movieId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    getMovies();
+  } catch (error) {
+    console.error('Error deleting movie:', error);
+  }
+};
+
+const updateMovieDetails = async () => {
+  if (selectedMovie.value && (editedMovieTitle.value || editedMovieDescription.value)) {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        this.$router.push('/');
+        return;
+      }
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/merge-patch+json',
+      };
+      const updatedMovie = {
+        title: editedMovieTitle.value,
+        description: editedMovieDescription.value,
+        duration: editedMovieDuration.value,
+        releaseDate: editedMovieReleaseDate.value,
+        category: `/api/categories/${editedMovieCategory.value}`,
+        actors: editedMovieActors.value.map(actorId => `/api/authors/${actorId}`)
+      };
+
+      await axios.patch(
+          `https://127.0.0.1:8000/api/movies/${selectedMovie.value.id}`,
+          updatedMovie,
+          { headers }
+      );
+
+      editedMovieTitle.value = '';
+      editedMovieDescription.value = '';
+      editedMovieDuration.value = '';
+      editedMovieReleaseDate.value = '';
+      editedMovieCategory.value = '';
+      selectedMovieId.value = null;
+      getMovies();
+    } catch (error) {
+      console.error('Error updating movie details:', error);
+    }
+  }
+};
+
+const closeModal = () => {
+  selectedMovieId.value = null;
+};
+
+const updateCategory = (categoryId) => {
+  selectedCategoryId.value = categoryId;
+  getMovies();
+};
 
 const formatReleaseDate = (dateString) => {
   const date = new Date(dateString);
@@ -237,11 +450,11 @@ const getMovies = async () => {
     const categoriesresponse = await axios.get('https://127.0.0.1:8000/api/categories', {
       headers: {
         Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
       }
     });
 
-    categories.value = categoriesresponse.data;
+    categories.value = categoriesresponse.data['hydra:member'];
+    console.log(categories.value)
 
     const actorsResponse = await axios.get('https://127.0.0.1:8000/api/authors', {
       headers: {
@@ -254,55 +467,6 @@ const getMovies = async () => {
   } catch (error) {
     console.error('Error fetching movies:', error);
   }
-};
-
-const updateMovieDetails = async () => {
-  if (selectedMovie.value && (editedMovieTitle.value || editedMovieDescription.value)) {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        this.$router.push('/');
-        return;
-      }
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/merge-patch+json',
-      };
-      const updatedMovie = {
-        title: editedMovieTitle.value,
-        description: editedMovieDescription.value,
-        duration: editedMovieDuration.value,
-        releaseDate: editedMovieReleaseDate.value,
-        category: `/api/categories/${editedMovieCategory.value}`,
-        actors: editedMovieActors.value.map(actorId => `/api/authors/${actorId}`)
-      };
-
-      await axios.patch(
-          `https://127.0.0.1:8000/api/movies/${selectedMovie.value.id}`,
-          updatedMovie,
-          { headers }
-      );
-
-      editedMovieTitle.value = '';
-      editedMovieDescription.value = '';
-      editedMovieDuration.value = '';
-      editedMovieReleaseDate.value = '';
-      editedMovieCategory.value = '';
-      selectedMovieId.value = null;
-      getMovies();
-    } catch (error) {
-      console.error('Error updating movie details:', error);
-    }
-  }
-};
-
-const closeModal = () => {
-  selectedMovieId.value = null;
-};
-
-const updateCategory = (categoryId) => {
-  selectedCategoryId.value = categoryId;
-  getMovies();
 };
 
 onMounted(() => {
