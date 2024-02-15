@@ -25,7 +25,7 @@
             <a v-if="searchQuery" href="/movies"><i class="fa-solid fa-xmark"></i></a>
           </div>
         </form>
-        <button class="btn-add" @click="showModal = true">Ajouter une catégorie</button>
+        <button class="btn-add" @click="showModal = true">Ajouter une catégorie <i class="fa-solid fa-plus"></i></button>
 
       </div>
     </div>
