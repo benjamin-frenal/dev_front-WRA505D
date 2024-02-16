@@ -436,15 +436,15 @@ const getMovies = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     searchQuery.value = urlParams.get('title') || '';
 
-    const apiParams = {};
-    urlParams.forEach((value, key) => {
-      apiParams[key] = value;
-    });
-
     let apiUrl = 'https://127.0.0.1:8000/api/movies';
+
+    if (searchQuery.value) {
+      apiUrl += `?title=${searchQuery.value}`;
+    }
 
     if (selectedCategoryId.value !== 'default') {
       apiUrl = `https://127.0.0.1:8000/api/categories/${selectedCategoryId.value}`;
+      searchQuery.value = '';
     }
 
     const response = await axios.get(apiUrl, {

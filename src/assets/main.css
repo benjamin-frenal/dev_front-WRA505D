@@ -167,6 +167,7 @@ body{
       display: flex;
       justify-content: space-between;
       gap: 20px;
+      position: relative;
       .bloc-categorie{
         position: relative;
         display: flex;
@@ -459,9 +460,40 @@ body{
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 20px;
+        @media screen and (max-width: 1200px){
+          grid-template-columns: repeat(3, 1fr);
+        }
+        @media screen and (max-width: 991px){
+          grid-template-columns: repeat(2, 1fr);
+        }
+        @media screen and (max-width: 767px){
+          grid-template-columns: 1fr;
+        }
         .bloc-categorie{
           padding: 0;
           height: 174px;
+        }
+      }
+      .options{
+        display: flex;
+        justify-content: space-between;
+        a{
+          padding: 10px 20px 0;
+          color: white;
+          font-size: 14px;
+          text-decoration: none;
+          transition: all 0.25s;
+          cursor: pointer;
+        }
+        .edit{
+          &:hover{
+            color: #0058e1;
+          }
+        }
+        .suppr{
+          &:hover{
+            color: red;
+          }
         }
       }
     }
@@ -538,8 +570,8 @@ body{
       left: 15%;
       background-color: rgba(18, 20, 31, 1);
       padding: 50px;
-      box-shadow: 0 0 25px 500px rgba(18, 20, 31, 0.75);
-      border-radius: 40px;
+      box-shadow: 0 0 25px 500px rgb(132 139 172 / 75%);
+      border-radius: 20px;
       border: 1px solid rgb(70, 72, 84);
       & h2{
         margin: 0 auto 35px auto;
