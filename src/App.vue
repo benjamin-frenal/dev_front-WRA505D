@@ -45,6 +45,7 @@ const handleLogout = () => {
         <span>Mon profil</span>
         <img src="@/assets/profil.png" alt="Image profil">
         <div class="options">
+          <RouterLink to="/account" :class="{ active: route.path === '/account' }"><span>Modifier mon profil</span></RouterLink>
           <a href="#" @click="handleLogout">Se déconnecter</a>
         </div>
       </div>

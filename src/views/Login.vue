@@ -6,6 +6,7 @@ import { useRouter } from "vue-router";
 
 let mail = ref("");
 let password = ref("");
+let userId = ref(null); // Ajout de la référence pour stocker l'ID de l'utilisateur
 const router = useRouter();
 
 onMounted(() => {
@@ -25,7 +26,26 @@ const login = async () => {
       password: password.value,
     });
     localStorage.setItem("token", response.data.token);
+
+    await fetchUserId();
     router.push("/");
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+const fetchUserId = async () => {
+  try {
+    const response = await axios.get(`https://127.0.0.1:8000/api/users?email=${mail.value}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Accept: 'application/json',
+      },
+    });
+    console.log('USERID : ', response.data[0].id);
+    const userId = response.data[0].id;
+    localStorage.setItem('userId', userId);
   } catch (error) {
     console.error(error);
   }
@@ -42,6 +62,7 @@ const handleFocus = (value, field) => {
   }
 };
 </script>
+
 
 <template>
   <div class="login-view">
