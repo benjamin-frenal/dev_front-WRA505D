@@ -20,10 +20,7 @@
       <h2>Nos quatre derniers acteurs</h2>
       <div class="list-acteurs">
         <div class="bloc-categories">
-          <a :href="'actor/' + actor.id" class="bloc-categorie" v-for="actor in actors" :key="actor.id">
-            <img :src="actor.image" class="image" alt="">
-            <p>{{ actor.firstName }} {{ actor.lastName }}</p>
-          </a>
+          <ActorCard v-for="actor in actors" :key="actor.id" :actor="actor" />
         </div>
       </div>
     </section>
@@ -48,6 +45,7 @@
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
 import MovieCard from '@/components/MovieCard.vue';
+import ActorCard from '@/components/ActorCard.vue';
 
 let categories = ref([]);
 let movies = ref([]);
@@ -75,7 +73,7 @@ onMounted(async () => {
         Accept: 'application/json',
       }
     })
-    actors.value = actorsResponse.data.slice(-4); // Pour afficher que les 4 derniers acteurs
+    actors.value = actorsResponse.data.slice(-4);
 
     const moviesResponse = await axios.get('https://127.0.0.1:8000/api/movies', {
       headers: {
