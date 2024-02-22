@@ -36,7 +36,7 @@
             {{ category.name }}
           </a>
           <div class="options">
-            <a class="edit" @click="">Modifier</a>
+            <a class="edit" @click="openEditCategoryModal(category)">Modifier</a>
             <a class="suppr" @click="openDeleteCategoryModal(category.id)">Supprimer</a>
           </div>
         </div>
@@ -49,6 +49,19 @@
         <h2>Confirmation de suppression</h2>
         <p class="sur-delete">Êtes-vous sûr de vouloir supprimer cette catégorie ?</p>
         <button class="btn" @click="confirmDeleteCategory">Confirmer la suppression</button>
+      </div>
+    </div>
+    <div :class="{ 'd-none Jmodal-modif': !showEditModal }" class="modal_modif">
+      <div class="modal-content">
+        <span class="close" @click="showEditModal = false">&times;</span>
+        <h2>Éditer une catégorie</h2>
+        <form @submit.prevent="editCategory">
+          <div class="form-group form-group-pen">
+            <label for="editedCategoryName">Nom de la catégorie</label>
+            <input type="text" v-model="editedCategoryName" placeholder="Nom de la catégorie" required>
+          </div>
+          <button class="btn" type="submit">Enregistrer les modifications</button>
+        </form>
       </div>
     </div>
 
@@ -64,9 +77,15 @@ let showModal = ref(false)
 let newCategoryName = ref('')
 let showDeleteModal = ref(false);
 let selectedCategoryId = ref(null);
+let showEditModal = ref(false);
+let editedCategoryName = ref('');
 let searchQuery = ref('');
 
-onMounted(async () => {
+onMounted(() => {
+  fetchData();
+});
+
+const fetchData = async () => {
   try {
     const token = localStorage.getItem('token');
     if (!token){
@@ -94,7 +113,8 @@ onMounted(async () => {
   } catch (error) {
     console.error('Error fetching categories:', error)
   }
-})
+}
+
 const addCategory = async () => {
   try {
     const token = localStorage.getItem('token');
@@ -112,10 +132,9 @@ const addCategory = async () => {
       }
     })
 
-    // Mettre à jour la liste des catégories après l'ajout de la nouvelle catégorie
     data.value.push(response.data)
-    showModal.value = false // Fermer la modal après l'ajout réussi
-    newCategoryName.value = '' // Effacer le champ de saisie
+    showModal.value = false
+    newCategoryName.value = ''
   } catch (error) {
     console.error('Error adding category:', error)
   }
@@ -123,6 +142,42 @@ const addCategory = async () => {
 const openDeleteCategoryModal = (categoryId) => {
   selectedCategoryId.value = categoryId;
   showDeleteModal.value = true;
+};
+
+const openEditCategoryModal = (category) => {
+  selectedCategoryId.value = category.id;
+  editedCategoryName.value = category.name; // Pré-remplir le champ avec le nom de la catégorie
+  showEditModal.value = true;
+};
+
+const editCategory = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token){
+      this.$router.push('/');
+      return;
+    }
+
+    const response = await axios.put(`https://127.0.0.1:8000/api/categories/${selectedCategoryId.value}`, {
+      name: editedCategoryName.value
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      }
+    });
+
+    const index = data.value.findIndex(category => category.id === selectedCategoryId.value);
+    if (index !== -1) {
+      data.value[index] = response.data;
+    }
+
+    showEditModal.value = false;
+    editedCategoryName.value = '';
+    await fetchData();
+  } catch (error) {
+    console.error('Error editing category:', error)
+  }
 };
 
 const UseCategoryModal = () => {
