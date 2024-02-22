@@ -18,8 +18,8 @@
           </div>
         </div>
 
-        <form class="search-form" action="http://127.0.0.1:5173/movies" method="get">
-          <input type="text" name="title" placeholder="Entrez un titre" v-model="searchQuery">
+        <form class="search-form" action="http://127.0.0.1:5173/categories" method="get">
+          <input type="text" name="title" placeholder="Rechercher une catégorie" v-model="searchQuery">
           <div class="icons">
             <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             <a v-if="searchQuery" href="/movies"><i class="fa-solid fa-xmark"></i></a>
@@ -64,6 +64,7 @@ let showModal = ref(false)
 let newCategoryName = ref('')
 let showDeleteModal = ref(false);
 let selectedCategoryId = ref(null);
+let searchQuery = ref('');
 
 onMounted(async () => {
   try {
@@ -73,12 +74,21 @@ onMounted(async () => {
       return;
     }
 
-    const response = await axios.get('https://127.0.0.1:8000/api/categories', {
+    const urlParams = new URLSearchParams(window.location.search);
+    searchQuery.value = urlParams.get('title') || '';
+
+    let apiUrl = 'https://127.0.0.1:8000/api/categories';
+
+    if (searchQuery.value) {
+      apiUrl += `?name=${searchQuery.value}`;
+    }
+
+    const response = await axios.get(apiUrl, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
-      }
-    })
+      },
+    });
 
     data.value = response.data
   } catch (error) {
