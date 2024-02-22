@@ -3,6 +3,14 @@
     <div class="content--top">
       <div class="flex sb">
         <h1>Acteurs</h1>
+
+        <form class="search-form" action="http://127.0.0.1:5173/actors" method="get">
+          <input type="text" name="fullname" placeholder="Rechercher un acteur/une actrice" v-model="searchQuery">
+          <div class="icons">
+            <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <a v-if="searchQuery" href="/movies"><i class="fa-solid fa-xmark"></i></a>
+          </div>
+        </form>
         <button class="btn-add" @click="showModal = true">Ajouter un acteur <i class="fa-solid fa-plus"></i></button>
       </div>
     </div>
@@ -91,6 +99,7 @@ const editingMode = ref(false);
 const editedActorFirstName = ref('');
 const editedActorLastName = ref('');
 const editedActorImage = ref('');
+const searchQuery = ref('');
 
 const openActorModal = (actorId) => {
   selectedActorId.value = actorId;
@@ -118,12 +127,22 @@ onMounted(async () => {
       return;
     }
 
-    const response = await axios.get('https://127.0.0.1:8000/api/authors', {
+    const urlParams = new URLSearchParams(window.location.search);
+    searchQuery.value = urlParams.get('fullname') || '';
+
+    let apiUrl = 'https://127.0.0.1:8000/api/authors';
+
+    if (searchQuery.value) {
+      apiUrl += `?fullname=${searchQuery.value}`;
+    }
+
+    const response = await axios.get(apiUrl, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
-      }
-    })
+      },
+    });
+
     data.value = response.data
   } catch (error) {
     console.error('Error fetching authors:', error)
