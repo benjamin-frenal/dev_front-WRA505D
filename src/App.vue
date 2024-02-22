@@ -10,7 +10,7 @@ const handleLogout = () => {
 </script>
 
 <template>
-  <header v-if="route.path !== '/login'">
+  <header v-if="route.path !== '/login' && route.path !== '/forgot-password'">
     <nav>
       <ul>
         <li>

@@ -1,12 +1,12 @@
 <script setup>
-import axios from "axios";
 import { onMounted } from "vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 let mail = ref("");
 let password = ref("");
-let userId = ref(null); // Ajout de la référence pour stocker l'ID de l'utilisateur
+let userId = ref(null);
+let showModal = ref(false); // Ajout de l'état pour contrôler l'affichage de la modale
 const router = useRouter();
 
 onMounted(() => {
@@ -16,38 +16,6 @@ onMounted(() => {
 const isTokenValid = () => {
   if (localStorage.getItem("token")) {
     router.push("/");
-  }
-};
-
-const login = async () => {
-  try {
-    const response = await axios.post("https://127.0.0.1:8000/api/login", {
-      email: mail.value,
-      password: password.value,
-    });
-    localStorage.setItem("token", response.data.token);
-
-    await fetchUserId();
-    router.push("/");
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-
-const fetchUserId = async () => {
-  try {
-    const response = await axios.get(`https://127.0.0.1:8000/api/users?email=${mail.value}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        Accept: 'application/json',
-      },
-    });
-    console.log('USERID : ', response.data[0].id);
-    const userId = response.data[0].id;
-    localStorage.setItem('userId', userId);
-  } catch (error) {
-    console.error(error);
   }
 };
 
@@ -61,8 +29,11 @@ const handleFocus = (value, field) => {
     isPasswordFocused.value = value;
   }
 };
-</script>
 
+const login = () => {
+  showModal.value = true;
+};
+</script>
 
 <template>
   <div class="login-view">
@@ -71,25 +42,23 @@ const handleFocus = (value, field) => {
     </header>
     <div class="container">
       <div class="formulaire">
-        <span>Connexion</span>
-        <h1>Entrez vos identifiants pour continuer</h1>
-        <p>Identifiez-vous sur votre compte.</p>
+        <span>Mot de passe oublié ?</span>
+        <h1>Entrez votre adresse-mail pour continuer</h1>
+        <p>Nous allons essayer de retrouver votre compte.</p>
         <form @submit.prevent="login" class="form">
           <div class="field" :class="{ 'is-focus': isMailFocused, 'value-ok': mail !== '' }"
                @focusin="handleFocus(true, 'mail')"
                @focusout="handleFocus(false, 'mail')">
             <label for="mail">Adresse e-mail</label>
-            <input type="text" id="mail" v-model="mail" />
+            <input type="text" id="mail" v-model="mail" required/>
           </div>
-          <div class="field" :class="{ 'is-focus': isPasswordFocused, 'value-ok': password !== '' }"
-               @focusin="handleFocus(true, 'password')"
-               @focusout="handleFocus(false, 'password')">
-            <label for="password">Mot de passe</label>
-            <input type="password" id="password" v-model="password"/>
-          </div>
-          <button type="submit" class="primary-button">Continuer</button>
-          <a class="onhref" href="/forgot-password">Mot de passe oublié ?</a>
+          <button type="submit" class="primary-button">Modifier mon mot de passe</button>
+          <a class="onhref" href="/login">Retourner à la page de connexion</a>
+
         </form>
+        <div v-if="showModal" class="valid-mail">
+          <p>Un mail de réinitialisation de mot de passe a bien été envoyé.</p>
+        </div>
       </div>
     </div>
     <footer>
@@ -253,6 +222,14 @@ const handleFocus = (value, field) => {
           }
         }
       }
+    }
+  }
+  .valid-mail{
+    text-align: center;
+    p{
+      font-size: 14px;
+      color: #049f04 !important;
+      margin: 30px 0 -30px;
     }
   }
   .onhref{

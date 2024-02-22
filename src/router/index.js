@@ -8,6 +8,7 @@ import Movies from '../views/Movies.vue'
 import Movie from '../views/Movie.vue'
 import LoginView from "../views/Login.vue";
 import AccountView from "../views/Account.vue";
+import Forgot_Password from "@/views/Forgot_Password.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +23,11 @@ const router = createRouter({
       path: "/login",
       name: "login",
       component: LoginView,
+    },
+    {
+      path: "/forgot-password",
+      name: "forgot-password",
+      component: Forgot_Password,
     },
     {
       path: "/account",
