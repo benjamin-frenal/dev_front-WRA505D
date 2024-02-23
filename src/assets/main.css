@@ -919,6 +919,38 @@ body{
         }
       }
     }
+
+    .pagination{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      column-gap: 20px;
+      margin-top: 20px;
+      color: white;
+      button{
+        background: none;
+        border: 1px solid #0058e1;
+        border-radius: 50%;
+        height: 30px;
+        width: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        i{
+          color: white;
+        }
+        &:hover{
+          background: #0058e1;
+        }
+      }
+      span{
+        margin-top: 4px;
+        display: block;
+        font-family: Orkney-Light, sans-serif;
+      }
+    }
   }
 }
 h2{
