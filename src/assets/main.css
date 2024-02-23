@@ -99,6 +99,7 @@ body{
             letter-spacing: -.1px;
             line-height: 1.6;
             margin-right: 16px;
+            text-wrap: nowrap;
           }
           & img{
             z-index: 1;
@@ -141,6 +142,32 @@ body{
             }
             &::before{
               opacity: 1;
+            }
+          }
+        }
+      }
+      @media screen and (max-width: 992px){
+        .options{
+          left: auto!important;
+        }
+        & nav .profil {
+          padding-left: 0;
+        }
+      }
+      @media screen and (max-width: 767px){
+        padding: 0 20px;
+        & nav{
+          & ul{
+            & li{
+              span{
+                display: none;
+
+              }
+            }
+          }
+          .profil {
+            > span{
+                display: none;
             }
           }
         }
@@ -330,6 +357,15 @@ body{
         display: flex;
         align-items: center;
         gap: 1.5rem;
+        @media screen and (max-width: 992px){
+          flex-direction: column;
+          align-items: center;
+          gap: 0;
+          .right{
+            margin-left: 0;
+            margin-bottom: 20px;
+          }
+        }
         & h1{
           margin: 24px 0;
           font-size: 44px;
@@ -381,12 +417,25 @@ body{
           }
         }
       }
+      .left{
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .right{
+        margin-right: 0;
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        @media screen and (max-width: 767px){
+          flex-direction: column-reverse;
+        }
+      }
       .search-form{
         position: relative;
         flex: none;
         width: fit-content;
-        margin-right: 0;
-        margin-left: auto;
         & input[type='text']{
           margin-top: 6px;
           font-family: "Orkney-Light", sans-serif;

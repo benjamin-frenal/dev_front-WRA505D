@@ -113,6 +113,9 @@ const handleFocus = (value, field) => {
 </template>
 
 <style scoped>
+.container{
+  min-height: calc(100vh - 120px - 171px);
+}
   .login-view{
     background: radial-gradient(circle at bottom, #2346A0, #050320);
     & header{
