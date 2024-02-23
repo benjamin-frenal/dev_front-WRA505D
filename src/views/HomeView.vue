@@ -33,11 +33,30 @@
   }
   h1{
     text-align: center;
-    margin: 172px 0 100px;
+    margin: 172px 50px 100px;
   }
   .list-acteurs{
     margin-top: 20px;
     padding: 0!important;
+  }
+  @media screen and (max-width: 1400px){
+    body #app .home-categorie .bloc-categories, body #app .quatre-films .container-movies .movies{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      .bloc-categorie{
+        padding: 0;
+      }
+    }
+  }
+  @media screen and (max-width: 991px){
+    body #app .home-categorie .bloc-categories, body #app .quatre-films .container-movies .movies{
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media screen and (max-width: 767px){
+    body #app .home-categorie .bloc-categories, body #app .quatre-films .container-movies .movies{
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 
