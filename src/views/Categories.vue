@@ -4,29 +4,16 @@
       <div class="flex">
         <h1>Categories</h1>
 
-        <div :class="[{ 'd-none Jmodal-modif': !showModal }, 'modal_modif']">
-          <div class="modal-content">
-            <span class="close" @click="showModal = false">&times;</span>
-            <h2>Ajouter une catégorie</h2>
-            <form @submit.prevent="addCategory">
-              <div class="form-group form-group-pen">
-                <label for="newCategoryName">Nom de la catégorie</label>
-                <input type="text" v-model="newCategoryName" placeholder="Nom de la catégorie" required>
-              </div>
-              <button class="btn" type="submit">Ajouter</button>
-            </form>
-          </div>
-        </div>
-
-        <form class="search-form" action="http://127.0.0.1:5173/categories" method="get">
+        <div class="right">
+          <form class="search-form" action="http://127.0.0.1:5173/categories" method="get">
           <input type="text" name="name" placeholder="Rechercher une catégorie" v-model="searchQuery">
           <div class="icons">
             <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             <a v-if="searchQuery" href="/movies"><i class="fa-solid fa-xmark"></i></a>
           </div>
         </form>
-        <button class="btn-add" @click="showModal = true">Ajouter une catégorie <i class="fa-solid fa-plus"></i></button>
-
+          <button class="btn-add" @click="showModal = true">Ajouter une catégorie <i class="fa-solid fa-plus"></i></button>
+        </div>
       </div>
     </div>
     <div class="list-categories">
@@ -51,7 +38,19 @@
         </button>
       </div>
     </div>
-
+    <div :class="[{ 'd-none Jmodal-modif': !showModal }, 'modal_modif']">
+      <div class="modal-content">
+        <span class="close" @click="showModal = false">&times;</span>
+        <h2>Ajouter une catégorie</h2>
+        <form @submit.prevent="addCategory">
+          <div class="form-group form-group-pen">
+            <label for="newCategoryName">Nom de la catégorie</label>
+            <input type="text" v-model="newCategoryName" placeholder="Nom de la catégorie" required>
+          </div>
+          <button class="btn" type="submit">Ajouter</button>
+        </form>
+      </div>
+    </div>
     <div :class="{ 'd-none Jmodal-modif': !showDeleteModal }" class="modal_modif">
       <div class="modal-content">
         <span class="close" @click="closeDeleteCategoryModal">&times;</span>
@@ -73,7 +72,6 @@
         </form>
       </div>
     </div>
-
   </main>
 </template>
 
@@ -240,6 +238,7 @@ const deleteCategory = async (categoryId) => {
     });
 
     data.value = data.value.filter(category => category.id !== categoryId);
+    await fetchData();
   } catch (error) {
     UseCategoryModal();
   }

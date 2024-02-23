@@ -4,14 +4,16 @@
       <div class="flex sb">
         <h1>Acteurs</h1>
 
-        <form class="search-form" action="http://127.0.0.1:5173/actors" method="get">
-          <input type="text" name="name" placeholder="Rechercher un acteur/une actrice" v-model="searchQuery">
-          <div class="icons">
-            <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-            <a v-if="searchQuery" href="/movies"><i class="fa-solid fa-xmark"></i></a>
-          </div>
-        </form>
-        <button class="btn-add" @click="showModal = true">Ajouter un acteur <i class="fa-solid fa-plus"></i></button>
+        <div class="right">
+          <form class="search-form" action="http://127.0.0.1:5173/actors" method="get">
+            <input type="text" name="name" placeholder="Rechercher un acteur/une actrice" v-model="searchQuery">
+            <div class="icons">
+              <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+              <a v-if="searchQuery" href="/movies"><i class="fa-solid fa-xmark"></i></a>
+            </div>
+          </form>
+          <button class="btn-add" @click="showModal = true">Ajouter un acteur <i class="fa-solid fa-plus"></i></button>
+        </div>
       </div>
     </div>
     <div class="list-acteurs">

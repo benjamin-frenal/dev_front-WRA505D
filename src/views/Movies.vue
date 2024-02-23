@@ -2,24 +2,28 @@
   <main>
     <div class="content--top">
       <div class="flex">
-        <h1>Films</h1>
-        <form  class="select" action="">
-          <select name="categories" id="categories" @change="updateCategory($event.target.value)">
-            <option value="default">Tous les films</option>
-            <option v-for="category in categories" :key="category.id" :value="category.id">
-              {{ category.name }}
-            </option>
-          </select>
+        <div class="left">
+          <h1>Films</h1>
+          <form  class="select" action="">
+            <select name="categories" id="categories" @change="updateCategory($event.target.value)">
+              <option value="default">Tous les films</option>
+              <option v-for="category in categories" :key="category.id" :value="category.id">
+                {{ category.name }}
+              </option>
+            </select>
+          </form>
+        </div>
 
-        </form>
-        <form class="search-form" action="http://127.0.0.1:5173/movies" method="get">
-          <input type="text" name="title" placeholder="Rechercher un film" v-model="searchQuery">
-          <div class="icons">
-            <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-            <a v-if="searchQuery" href="/movies"><i class="fa-solid fa-xmark"></i></a>
-          </div>
-        </form>
-        <button class="btn-add" @click="openAddModal">Ajouter un film <i class="fa-solid fa-plus"></i></button>
+        <div class="right">
+          <form class="search-form" action="http://127.0.0.1:5173/movies" method="get">
+            <input type="text" name="title" placeholder="Rechercher un film" v-model="searchQuery">
+            <div class="icons">
+              <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+              <a v-if="searchQuery" href="/movies"><i class="fa-solid fa-xmark"></i></a>
+            </div>
+          </form>
+          <button class="btn-add" @click="openAddModal">Ajouter un film <i class="fa-solid fa-plus"></i></button>
+        </div>
       </div>
     </div>
     <section class="list-film">
@@ -30,10 +34,6 @@
               <a :href="'movie/' + movie.id" class="movie-bloc">
                 <img :src="movie.miniature" :alt="movie.title">
               </a>
-            </div>
-            <div class="options">
-              <a @click="toggleDetails(movie.id)"><i class="fa-solid fa-pen"></i></a>
-              <a @click="toggleTrash(movie.id)"><i class="fa-solid fa-trash"></i></a>
             </div>
             <div class="texte">
               <p>{{movie.title}}</p>
