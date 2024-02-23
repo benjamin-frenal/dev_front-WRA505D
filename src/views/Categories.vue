@@ -41,6 +41,15 @@
           </div>
         </div>
       </div>
+      <div class="pagination">
+        <button @click="prevPage" :class="{ inactive: currentPage === 1 }">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+        <button @click="nextPage" :class="{ inactive: currentPage === totalPages }">
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
     </div>
 
     <div :class="{ 'd-none Jmodal-modif': !showDeleteModal }" class="modal_modif">
@@ -76,14 +85,33 @@ let data = ref('')
 let showModal = ref(false)
 let newCategoryName = ref('')
 let showDeleteModal = ref(false);
+let currentPage = ref(1);
+let totalPages = ref(1);
 let selectedCategoryId = ref(null);
 let showEditModal = ref(false);
 let editedCategoryName = ref('');
 let searchQuery = ref('');
 
+
 onMounted(() => {
   fetchData();
 });
+
+
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+    fetchData(currentPage.value);
+  }
+};
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+    fetchData(currentPage.value);
+  }
+};
 
 const fetchData = async () => {
   try {
@@ -102,14 +130,19 @@ const fetchData = async () => {
       apiUrl += `?name=${searchQuery.value}`;
     }
 
+    if (currentPage.value) {
+      apiUrl += `?page=${currentPage.value}`;
+    }
+
     const response = await axios.get(apiUrl, {
       headers: {
         Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
       },
     });
 
-    data.value = response.data
+    data.value = response.data['hydra:member'];
+
+    totalPages.value = Math.ceil(response.data["hydra:totalItems"] / 30);
   } catch (error) {
     console.error('Error fetching categories:', error)
   }
@@ -135,6 +168,8 @@ const addCategory = async () => {
     data.value.push(response.data)
     showModal.value = false
     newCategoryName.value = ''
+
+    await fetchData();
   } catch (error) {
     console.error('Error adding category:', error)
   }
