@@ -57,6 +57,15 @@
           </div>
         </div>
       </div>
+      <div class="pagination" v-if="showPagination">
+        <button @click="prevPage" :class="{ inactive: currentPage === 1 }">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+        <button @click="nextPage" :class="{ inactive: currentPage === totalPages }">
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
       <div :class="[{ 'd-none Jmodal-modif': !selectedMovieId }, 'modal_modif']">
         <h2 v-if="selectedMovie">{{ selectedMovie.title }}</h2>
         <form class="modal_form" @submit.prevent="updateMovieDetails">
@@ -217,29 +226,44 @@
 </template>
 
 <style scoped>
-
 </style>
 
 <script setup>
 import {onMounted, ref, computed, watch} from 'vue';
 import axios from 'axios';
 
-const categories = ref('');
-const actors = ref('');
-const selectedCategoryId = ref('default');
-const selectedMovieId = ref(null);
-const movies = ref([]);
-const searchQuery = ref('');
-const showDeleteModal = ref(false);
-const movieToDeleteId = ref(null);
-const movieToDeleteTitle = ref('');
-const editedMovieTitle = ref('');
-const editedMovieDescription = ref('');
-const editedMovieDuration = ref('');
-const editedMovieReleaseDate = ref('');
-const editedMovieActors = ref('');
-const editedMovieCategory = ref('');
+let categories = ref('');
+let actors = ref('');
+let selectedCategoryId = ref('default');
+let selectedMovieId = ref(null);
+let movies = ref([]);
+let searchQuery = ref('');
+let currentPage = ref(1);
+let totalPages = ref(1);
+let showDeleteModal = ref(false);
+let movieToDeleteId = ref(null);
+let movieToDeleteTitle = ref('');
+let editedMovieTitle = ref('');
+let editedMovieDescription = ref('');
+let editedMovieDuration = ref('');
+let editedMovieReleaseDate = ref('');
+let editedMovieActors = ref('');
+let editedMovieCategory = ref('');
+let showPagination = ref(false);
 
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+    getMovies(currentPage.value);
+  }
+};
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+    getMovies(currentPage.value);
+  }
+};
 
 const selectedMovie = computed(() => {
   if (Array.isArray(movies.value)) {
@@ -300,8 +324,7 @@ const addMovie = async () => {
     };
     showAddModal.value = false;
 
-    // Recharger la liste des films après l'ajout
-    getMovies();
+    await getMovies();
   } catch (error) {
     console.error('Error adding movie:', error);
   }
@@ -381,7 +404,7 @@ const updateMovieDetails = async () => {
       editedMovieReleaseDate.value = '';
       editedMovieCategory.value = '';
       selectedMovieId.value = null;
-      getMovies();
+      await getMovies();
     } catch (error) {
       console.error('Error updating movie details:', error);
     }
@@ -438,8 +461,12 @@ const getMovies = async () => {
 
     let apiUrl = 'https://127.0.0.1:8000/api/movies';
 
+    if (currentPage.value) {
+      apiUrl = `https://127.0.0.1:8000/api/movies?page=${currentPage.value}`;
+    }
+
     if (searchQuery.value) {
-      apiUrl += `?title=${searchQuery.value}`;
+      apiUrl = `https://127.0.0.1:8000/api/movies?title=${searchQuery.value}`;
     }
 
     if (selectedCategoryId.value !== 'default') {
@@ -449,13 +476,20 @@ const getMovies = async () => {
 
     const response = await axios.get(apiUrl, {
       headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
       },
     });
 
-    console.log(response.data);
-    movies.value = response.data;
+    movies.value = response.data['hydra:member'];
+
+    if (selectedCategoryId.value !== 'default') {
+      movies.value = response.data;
+      showPagination = false;
+    } else {
+      showPagination = true;
+    }
+
+    totalPages.value = Math.ceil(response.data["hydra:totalItems"] / 30);
 
     const categoriesresponse = await axios.get('https://127.0.0.1:8000/api/categories', {
       headers: {
@@ -480,6 +514,6 @@ const getMovies = async () => {
 };
 
 onMounted(() => {
-  getMovies();
+  getMovies(currentPage.value);
 });
 </script>

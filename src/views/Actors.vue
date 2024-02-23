@@ -27,6 +27,15 @@
           </div>
         </div>
       </div>
+      <div class="pagination">
+        <button @click="prevPage" :class="{ inactive: currentPage === 1 }">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+        <button @click="nextPage" :class="{ inactive: currentPage === totalPages }">
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
     </div>
     <div :class="[{ 'd-none Jmodal-modif': !showModal }, 'modal_modif']">
       <div class="modal-content">
@@ -91,15 +100,31 @@ let newActorFirstName = ref('')
 let newActorLastName = ref('')
 let newActorImage = ref('')
 let showDeleteModal = ref(false);
-const selectedActorId = ref(null);
-const selectedActor = computed(() => {
+let currentPage = ref(1);
+let totalPages = ref(1);
+let selectedActorId = ref(null);
+let selectedActor = computed(() => {
   return data.value.find(actor => actor.id === selectedActorId.value);
 });
-const editingMode = ref(false);
-const editedActorFirstName = ref('');
-const editedActorLastName = ref('');
-const editedActorImage = ref('');
-const searchQuery = ref('');
+let editingMode = ref(false);
+let editedActorFirstName = ref('');
+let editedActorLastName = ref('');
+let editedActorImage = ref('');
+let searchQuery = ref('');
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+    getActors(currentPage.value);
+  }
+};
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+    getActors(currentPage.value);
+  }
+};
 
 const openActorModal = (actorId) => {
   selectedActorId.value = actorId;
@@ -119,7 +144,7 @@ const closeActorModal = () => {
   editedActorImage.value = '';
 };
 
-onMounted(async () => {
+const getActors = async () => {
   try {
     const token = localStorage.getItem('token');
     if (!token){
@@ -136,18 +161,23 @@ onMounted(async () => {
       apiUrl += `?fullName=${searchQuery.value}`;
     }
 
+    if (currentPage.value) {
+      apiUrl += `?page=${currentPage.value}`;
+    }
+
     const response = await axios.get(apiUrl, {
       headers: {
         Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
       },
     });
 
-    data.value = response.data
+    data.value = response.data['hydra:member'];
+
+    totalPages.value = Math.ceil(response.data["hydra:totalItems"] / 30);
   } catch (error) {
     console.error('Error fetching authors:', error)
   }
-})
+}
 
 const addActor = async () => {
   try {
@@ -173,6 +203,7 @@ const addActor = async () => {
     newActorFirstName.value = ''
     newActorLastName.value = ''
     newActorImage.value = ''
+    await getActors();
   } catch (error) {
     console.error('Error adding actor:', error)
   }
@@ -210,6 +241,7 @@ const updateActorDetails = async () => {
       });
       data.value = response.data;
 
+      await getActors();
       closeActorModal();
     } catch (error) {
       console.error('Error updating actor details:', error);
@@ -249,17 +281,18 @@ const deleteActor = async (actorId) => {
       }
     });
 
-    // Filtrer les acteurs pour enlever celui qui a été supprimé
     data.value = data.value.filter(actor => actor.id !== actorId);
+    await getActors();
   } catch (error) {
     console.error('Error deleting actor:', error);
   }
 };
 
+onMounted(() => {
+  getActors()
+})
+
 </script>
 
 <style scoped>
-* {
-  color: white;
-}
 </style>
