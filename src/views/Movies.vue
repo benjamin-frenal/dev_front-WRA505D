@@ -280,9 +280,9 @@ const newMovie = ref({
   title: '',
   description: '',
   duration: '',
-  miniature: '',
-  background: '',
-  logo: '',
+  miniature: '/src/assets/img/miniatures/iut.jpeg',
+  background: '/src/assets/img/background/iut.jpeg',
+  logo: '/src/assets/img/logo/iut.png',
   category: '',
   actors: [],
 });
