@@ -643,6 +643,11 @@ body{
           display: flex;
           align-items: center;
           column-gap: 10px;
+          img{
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+          }
         }
         .form-group-pen{
           &::after{

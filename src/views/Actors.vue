@@ -20,7 +20,7 @@
       <div class="bloc-categories">
         <div v-for="actor in data" :key="actor.id">
           <a :href="'actor/' + actor.id" class="bloc-categorie">
-            <img :src="actor.image" class="image" alt="">
+            <img v-if="actor.image && actor.image.filePath" :src="'https://127.0.0.1:8000/media/'+actor.image.filePath" class="image" alt="">
             <div>{{ actor.firstName }} {{ actor.lastName }}</div>
           </a>
           <div class="options">
@@ -42,8 +42,8 @@
     <div :class="[{ 'd-none Jmodal-modif': !showModal }, 'modal_modif']">
       <div class="modal-content">
         <span class="close" @click="showModal = false">&times;</span>
-        <h2>{{ editingMode ? 'Modifier un acteur' : 'Ajouter un acteur' }}</h2>
-        <form @submit.prevent="editingMode ? updateActorDetails() : addActor()">
+        <h2>Ajouter un acteur</h2>
+        <form @submit.prevent="addActor()">
           <div class="form-group form-group-pen">
             <label for="newActorFirstName">Prénom</label>
             <input type="text" v-model="newActorFirstName" placeholder="Prénom" required>
@@ -53,10 +53,10 @@
             <input type="text" v-model="newActorLastName" placeholder="Nom" required>
           </div>
           <div class="form-group form-group-pen">
-            <label for="newActorImage">URL de l'image</label>
-            <input type="text" v-model="newActorImage" placeholder="URL de l'image">
+            <label for="newActorImage">Image</label>
+            <input type="file" ref="fileInput" @change="uploadFile" />
           </div>
-          <button class="btn" type="submit">{{ editingMode ? 'Modifier' : 'Ajouter' }}</button>
+          <button class="btn" type="submit">Ajouter</button>
         </form>
       </div>
     </div>
@@ -73,9 +73,11 @@
             <label for="editActorLastName">Nom de l'acteur :</label>
             <input type="text" id="editActorLastName" v-model="editedActorLastName" required>
           </div>
-          <div class="form-group form-group-pen">
-            <label for="editActorImage">URL de l'image :</label>
-            <input type="text" id="editActorImage" v-model="editedActorImage" required>
+          <div class="form-group">
+            <label for="editActorImage">
+              <img v-if="selectedActor && selectedActor.image && selectedActor.image.filePath" :src="'https://127.0.0.1:8000/media/' + selectedActor.image.filePath" class="current-image" alt="Current Image">
+            </label>
+            <input type="file" ref="newfileInput" @change="uploadNewFile" />
           </div>
           <button type="submit" class="btn">Valider les modifications</button>
         </form>
@@ -100,7 +102,7 @@ let data = ref([])
 let showModal = ref(false)
 let newActorFirstName = ref('')
 let newActorLastName = ref('')
-let newActorImage = ref('')
+let upload_img = ref('')
 let showDeleteModal = ref(false);
 let currentPage = ref(1);
 let totalPages = ref(1);
@@ -113,6 +115,62 @@ let editedActorFirstName = ref('');
 let editedActorLastName = ref('');
 let editedActorImage = ref('');
 let searchQuery = ref('');
+
+let fileInput = ref(null);
+let newfileInput = ref(null);
+let newupload_img = ref(null);
+
+const uploadFile = async () => {
+  const file = fileInput.value.files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.$router.push('/');
+      return;
+    }
+
+    const response = await axios.post('https://127.0.0.1:8000/api/media_objects', formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    upload_img.value = "/api/media_objects/" + response.data.id;
+    console.log(upload_img.value);
+  } catch (error) {
+    console.error('Erreur lors du téléchargement du fichier:', error);
+  }
+};
+
+const uploadNewFile = async () => {
+  const file = newfileInput.value.files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.$router.push('/');
+      return;
+    }
+
+    const response = await axios.post('https://127.0.0.1:8000/api/media_objects', formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    newupload_img.value = "/api/media_objects/" + response.data.id;
+    console.log(newupload_img.value);
+  } catch (error) {
+    console.error('Erreur lors du téléchargement du fichier:', error);
+  }
+};
 
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
@@ -144,6 +202,8 @@ const closeActorModal = () => {
   editedActorFirstName.value = '';
   editedActorLastName.value = '';
   editedActorImage.value = '';
+  newfileInput.value.value = null;
+  fileInput.value.value = null;
 };
 
 const getActors = async () => {
@@ -159,12 +219,12 @@ const getActors = async () => {
 
     let apiUrl = 'https://127.0.0.1:8000/api/authors';
 
-    if (searchQuery.value) {
-      apiUrl += `?fullName=${searchQuery.value}`;
-    }
-
     if (currentPage.value) {
       apiUrl += `?page=${currentPage.value}`;
+    }
+
+    if (searchQuery.value) {
+      apiUrl = `https://127.0.0.1:8000/api/authors?fullName=${searchQuery.value}`;
     }
 
     const response = await axios.get(apiUrl, {
@@ -174,6 +234,8 @@ const getActors = async () => {
     });
 
     data.value = response.data['hydra:member'];
+    console.log(data.value);
+    console.log(apiUrl);
 
     totalPages.value = Math.ceil(response.data["hydra:totalItems"] / 30);
   } catch (error) {
@@ -192,7 +254,7 @@ const addActor = async () => {
     const response = await axios.post('https://127.0.0.1:8000/api/authors', {
       firstName: newActorFirstName.value,
       lastName: newActorLastName.value,
-      image: newActorImage.value
+      image: upload_img.value
     }, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -204,7 +266,7 @@ const addActor = async () => {
     showModal.value = false
     newActorFirstName.value = ''
     newActorLastName.value = ''
-    newActorImage.value = ''
+    fileInput.value.value = null;
     await getActors();
   } catch (error) {
     console.error('Error adding actor:', error)
@@ -223,11 +285,14 @@ const updateActorDetails = async () => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/merge-patch+json',
       };
-      const updatedActor = {
+      let updatedActor = {
         firstName: editedActorFirstName.value,
         lastName: editedActorLastName.value,
-        image: editedActorImage.value
       };
+
+      if (newupload_img.value) {
+        updatedActor.image = newupload_img.value;
+      }
 
       await axios.patch(
           `https://127.0.0.1:8000/api/authors/${selectedActor.value.id}`,
@@ -242,6 +307,7 @@ const updateActorDetails = async () => {
         }
       });
       data.value = response.data;
+
 
       await getActors();
       closeActorModal();

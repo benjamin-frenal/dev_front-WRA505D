@@ -7,7 +7,7 @@
     </div>
     <div class="single-acteur">
       <div class="cover">
-        <img :src="author.image" alt="">
+        <img :src="'https://127.0.0.1:8000/media/'+author.image.filePath" alt="">
       </div>
       <div class="films-link">
         <h2>Films associes</h2>
@@ -58,6 +58,7 @@ onMounted(async () => {
     })
 
     author.value = response.data
+    console.log(author.value)
   } catch (error) {
     console.error('Error fetching authors:', error)
   }

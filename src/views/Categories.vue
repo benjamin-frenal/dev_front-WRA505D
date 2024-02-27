@@ -124,12 +124,12 @@ const fetchData = async () => {
 
     let apiUrl = 'https://127.0.0.1:8000/api/categories';
 
-    if (searchQuery.value) {
-      apiUrl += `?name=${searchQuery.value}`;
-    }
-
     if (currentPage.value) {
       apiUrl += `?page=${currentPage.value}`;
+    }
+
+    if (searchQuery.value) {
+      apiUrl = `https://127.0.0.1:8000/api/categories?name=${searchQuery.value}`;
     }
 
     const response = await axios.get(apiUrl, {
