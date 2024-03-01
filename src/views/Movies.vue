@@ -75,6 +75,7 @@
                 type="text"
                 class="form-control"
                 id="editMovieTitle"
+                minlength="3"
                 v-if="selectedMovie"
                 v-model="editedMovieTitle"
             />
@@ -167,7 +168,7 @@
           <form @submit.prevent="addMovie">
             <div class="form-group form-group-pen">
               <label for="title">Titre :</label>
-              <input type="text" id="title" v-model="newMovie.title" required>
+              <input type="text" id="title" v-model="newMovie.title" minlength="3" required>
             </div>
 
             <div class="form-group form-group-pen">
@@ -186,11 +187,11 @@
               </div>
               <div class="form-group">
                 <label for="miniature">Miniature :</label>
-                <input type="text" id="miniature" v-model="newMovie.miniature" required>
+                <input type="text" id="miniature" v-model="newMovie.miniature" minlength="3" required>
               </div>
               <div class="form-group">
                 <label for="background">Background :</label>
-                <input type="text" id="background" v-model="newMovie.background" required>
+                <input type="text" id="background" v-model="newMovie.background"minlength="3" required>
               </div>
             </div>
 
