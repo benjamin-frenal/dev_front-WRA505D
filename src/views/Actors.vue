@@ -5,7 +5,7 @@
         <h1>Acteurs</h1>
 
         <div class="right">
-          <form class="search-form" action="http://127.0.0.1:5173/actors" method="get">
+          <form class="search-form" method="get">
             <input type="text" name="name" placeholder="Rechercher un acteur/une actrice" v-model="searchQuery">
             <div class="icons">
               <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -20,7 +20,7 @@
       <div class="bloc-categories">
         <div v-for="actor in data" :key="actor.id">
           <a :href="'actor/' + actor.id" class="bloc-categorie">
-            <img v-if="actor.image && actor.image.filePath" :src="'https://127.0.0.1:8000/media/'+actor.image.filePath" class="image" alt="">
+            <img v-if="actor.image && actor.image.filePath" :src="`${apiBaseUrl}/media/`+actor.image.filePath" class="image" alt="">
             <div>{{ actor.firstName }} {{ actor.lastName }}</div>
           </a>
           <div class="options">
@@ -75,7 +75,7 @@
           </div>
           <div class="form-group">
             <label for="editActorImage">
-              <img v-if="selectedActor && selectedActor.image && selectedActor.image.filePath" :src="'https://127.0.0.1:8000/media/' + selectedActor.image.filePath" class="current-image" alt="Current Image">
+              <img v-if="selectedActor && selectedActor.image && selectedActor.image.filePath" :src="`${apiBaseUrl}/media/` + selectedActor.image.filePath" class="current-image" alt="Current Image">
             </label>
             <input type="file" ref="newfileInput" @change="uploadNewFile" />
           </div>
@@ -97,6 +97,8 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue'
 import axios from 'axios'
+
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 let data = ref([])
 let showModal = ref(false)
@@ -132,7 +134,7 @@ const uploadFile = async () => {
       return;
     }
 
-    const response = await axios.post('https://127.0.0.1:8000/api/media_objects', formData, {
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/media_objects`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
@@ -158,7 +160,7 @@ const uploadNewFile = async () => {
       return;
     }
 
-    const response = await axios.post('https://127.0.0.1:8000/api/media_objects', formData, {
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/media_objects`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
@@ -217,14 +219,14 @@ const getActors = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     searchQuery.value = urlParams.get('name') || '';
 
-    let apiUrl = 'https://127.0.0.1:8000/api/authors';
+    let apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/authors`;
 
     if (currentPage.value) {
       apiUrl += `?page=${currentPage.value}`;
     }
 
     if (searchQuery.value) {
-      apiUrl = `https://127.0.0.1:8000/api/authors?fullName=${searchQuery.value}`;
+      apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/authors?fullName=${searchQuery.value}`;
     }
 
     const response = await axios.get(apiUrl, {
@@ -251,7 +253,7 @@ const addActor = async () => {
       return;
     }
 
-    const response = await axios.post('https://127.0.0.1:8000/api/authors', {
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/authors`, {
       firstName: newActorFirstName.value,
       lastName: newActorLastName.value,
       image: upload_img.value
@@ -295,12 +297,12 @@ const updateActorDetails = async () => {
       }
 
       await axios.patch(
-          `https://127.0.0.1:8000/api/authors/${selectedActor.value.id}`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/authors/${selectedActor.value.id}`,
           updatedActor,
           {headers}
       );
 
-      const response = await axios.get('https://127.0.0.1:8000/api/authors', {
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/authors`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json',
@@ -342,7 +344,7 @@ const deleteActor = async (actorId) => {
       return;
     }
 
-    const response = await axios.delete(`https://127.0.0.1:8000/api/authors/${actorId}`, {
+    const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/authors/${actorId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',

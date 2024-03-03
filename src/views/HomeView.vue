@@ -78,7 +78,7 @@ onMounted(async () => {
       return;
     }
 
-    const categoriesResponse = await axios.get('https://127.0.0.1:8000/api/categories', {
+    const categoriesResponse = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/categories`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
@@ -86,7 +86,7 @@ onMounted(async () => {
     })
     categories.value = categoriesResponse.data.slice(0, 6); // Pour afficher que les 6 premières catégories
 
-    const actorsResponse = await axios.get('https://127.0.0.1:8000/api/authors', {
+    const actorsResponse = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/authors`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
@@ -94,7 +94,7 @@ onMounted(async () => {
     })
     actors.value = actorsResponse.data.slice(-4);
 
-    const moviesResponse = await axios.get('https://127.0.0.1:8000/api/movies', {
+    const moviesResponse = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/movies`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',

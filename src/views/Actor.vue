@@ -7,7 +7,7 @@
     </div>
     <div class="single-acteur">
       <div class="cover">
-        <img :src="'https://127.0.0.1:8000/media/'+author.image.filePath" alt="">
+        <img :src="`${apiBaseUrl}/media/`+author.image.filePath" alt="">
       </div>
       <div class="films-link">
         <h2>Films associes</h2>
@@ -39,6 +39,7 @@ import MovieCard from "@/components/MovieCard.vue";
 let author = ref(null)
 
 const router = useRouter()
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 onMounted(async () => {
   try {
@@ -50,7 +51,7 @@ onMounted(async () => {
 
     const authorId = router.currentRoute.value.params.id
 
-    const response = await axios.get(`https://127.0.0.1:8000/api/authors/${authorId}`, {
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/authors/${authorId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
