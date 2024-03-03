@@ -5,7 +5,7 @@ Accéder à mon [repository back](https://github.com/benjamin-frenal/dev_back-WR
 
 Capture d'écran de ma [Collection Postman](https://)
 
-Accès via mon VPS : [https://mmi21g08.mmi-troyes.fr](https://mmi21g08.mmi-troyes.fr).
+Accès via mon VPS : [https://mmi21g08.mmi-troyes.fr/travaux/wra505/dev_front-WRA505D/](https://mmi21g08.mmi-troyes.fr/travaux/wra505/dev_front-WRA505D/).
 
 # Consignes :
 
