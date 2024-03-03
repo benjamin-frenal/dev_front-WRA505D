@@ -13,9 +13,8 @@
             </select>
           </form>
         </div>
-
         <div class="right">
-          <form class="search-form" action="http://127.0.0.1:5173/movies" method="get">
+          <form class="search-form" method="get">
             <input type="text" name="title" placeholder="Rechercher un film" v-model="searchQuery">
             <div class="icons">
               <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -307,7 +306,7 @@ const addMovie = async () => {
     console.log(newMovie.value);
 
     // Envoyer les données du nouveau film au serveur
-    await axios.post('https://127.0.0.1:8000/api/movies', newMovie.value, {
+    await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/movies`, newMovie.value, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -360,7 +359,7 @@ const deleteMovie = async (movieId) => {
       return;
     }
 
-    await axios.delete(`https://127.0.0.1:8000/api/movies/${movieId}`, {
+    await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/movies/${movieId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -394,7 +393,7 @@ const updateMovieDetails = async () => {
       };
 
       await axios.patch(
-          `https://127.0.0.1:8000/api/movies/${selectedMovie.value.id}`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/movies/${selectedMovie.value.id}`,
           updatedMovie,
           { headers }
       );
@@ -460,18 +459,18 @@ const getMovies = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     searchQuery.value = urlParams.get('title') || '';
 
-    let apiUrl = 'https://127.0.0.1:8000/api/movies';
+    let apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/movies`;
 
     if (currentPage.value) {
-      apiUrl = `https://127.0.0.1:8000/api/movies?page=${currentPage.value}`;
+      apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/movies?page=${currentPage.value}`;
     }
 
     if (searchQuery.value) {
-      apiUrl = `https://127.0.0.1:8000/api/movies?title=${searchQuery.value}`;
+      apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/movies?title=${searchQuery.value}`;
     }
 
     if (selectedCategoryId.value !== 'default') {
-      apiUrl = `https://127.0.0.1:8000/api/categories/${selectedCategoryId.value}`;
+      apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/categories/${selectedCategoryId.value}`;
       searchQuery.value = '';
     }
 
@@ -492,7 +491,7 @@ const getMovies = async () => {
 
     totalPages.value = Math.ceil(response.data["hydra:totalItems"] / 30);
 
-    const categoriesresponse = await axios.get('https://127.0.0.1:8000/api/categories', {
+    const categoriesresponse = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/categories`, {
       headers: {
         Authorization: `Bearer ${token}`,
       }
@@ -501,7 +500,7 @@ const getMovies = async () => {
     categories.value = categoriesresponse.data['hydra:member'];
     console.log(categories.value)
 
-    const actorsResponse = await axios.get('https://127.0.0.1:8000/api/authors', {
+    const actorsResponse = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/authors`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',

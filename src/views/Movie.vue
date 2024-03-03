@@ -83,7 +83,7 @@ onMounted(async () => {
 
     const movieId = router.currentRoute.value.params.id
 
-    const response = await axios.get(`https://127.0.0.1:8000/api/movies/${movieId}`, {
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/movies/${movieId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',

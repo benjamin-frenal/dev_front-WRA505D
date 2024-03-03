@@ -53,7 +53,7 @@ const logout = () => {
 onMounted(async () => {
   try {
     const userId = localStorage.getItem("userId");
-    const response = await axios.get(`https://127.0.0.1:8000/api/users/${userId}`, {
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/${userId}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         Accept: 'application/json',
@@ -70,7 +70,7 @@ onMounted(async () => {
 const updateUser = async () => {
   try {
     const userId = localStorage.getItem("userId");
-    await axios.put(`https://127.0.0.1:8000/api/users/${userId}`, editedUser.value, {
+    await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/users/${userId}`, editedUser.value, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         Accept: 'application/json',

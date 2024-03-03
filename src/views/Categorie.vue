@@ -47,7 +47,7 @@ onMounted(async () => {
 
     const categoryId = router.currentRoute.value.params.id;
 
-    const response = await axios.get(`https://127.0.0.1:8000/api/categories/${categoryId}`, {
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/categories/${categoryId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
