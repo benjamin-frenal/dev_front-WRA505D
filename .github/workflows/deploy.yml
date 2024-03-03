@@ -9,6 +9,11 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 16
+
     - name: Deploy projet VueJS
       uses: appleboy/ssh-action@master
       with:
@@ -17,7 +22,9 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
         script: |
-          cd public_html/travaux/wra505/
+          cd public_html/travaux/
+          rm -r wra505
+          mkdir wra505
           git clone git@github.com:benjamin-frenal/dev_front-WRA505D.git
           cd dev_front-WRA505D
           git pull
