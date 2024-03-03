@@ -5,7 +5,7 @@
         <h1>Categories</h1>
 
         <div class="right">
-          <form class="search-form" action="http://127.0.0.1:5173/categories" method="get">
+          <form class="search-form" method="get">
           <input type="text" name="name" placeholder="Rechercher une catégorie" v-model="searchQuery">
           <div class="icons">
             <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -122,14 +122,14 @@ const fetchData = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     searchQuery.value = urlParams.get('name') || '';
 
-    let apiUrl = 'https://127.0.0.1:8000/api/categories';
+    let apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/categories`;
 
     if (currentPage.value) {
       apiUrl += `?page=${currentPage.value}`;
     }
 
     if (searchQuery.value) {
-      apiUrl = `https://127.0.0.1:8000/api/categories?name=${searchQuery.value}`;
+      apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/categories?name=${searchQuery.value}`;
     }
 
     const response = await axios.get(apiUrl, {
@@ -154,7 +154,7 @@ const addCategory = async () => {
       return;
     }
 
-    const response = await axios.post('https://127.0.0.1:8000/api/categories', {
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/categories`, {
       name: newCategoryName.value
     }, {
       headers: {
@@ -191,7 +191,7 @@ const editCategory = async () => {
       return;
     }
 
-    const response = await axios.put(`https://127.0.0.1:8000/api/categories/${selectedCategoryId.value}`, {
+    const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/categories/${selectedCategoryId.value}`, {
       name: editedCategoryName.value
     }, {
       headers: {
@@ -230,7 +230,7 @@ const deleteCategory = async (categoryId) => {
       return;
     }
 
-    const response = await axios.delete(`https://127.0.0.1:8000/api/categories/${categoryId}`, {
+    const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/categories/${categoryId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',

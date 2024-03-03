@@ -21,7 +21,7 @@ const isTokenValid = () => {
 
 const login = async () => {
   try {
-    const response = await axios.post("https://127.0.0.1:8000/api/login", {
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/login`, {
       email: mail.value,
       password: password.value,
     });
@@ -37,7 +37,7 @@ const login = async () => {
 
 const fetchUserId = async () => {
   try {
-    const response = await axios.get(`https://127.0.0.1:8000/api/users?email=${mail.value}`, {
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users?email=${mail.value}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         Accept: 'application/json',
