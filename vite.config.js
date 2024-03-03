@@ -7,7 +7,7 @@ export default ({ mode }) => {
   // Load app-level env vars to node-level env vars.
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
-  const base = mode === "production" ? "/dev_front-WRA505D/" : "./";
+  const base = mode === "production" ? "/travaux/wra505/dev_front-WRA505D/" : "./";
 
   return defineConfig({
     base,
