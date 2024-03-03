@@ -28,6 +28,6 @@ jobs:
       with:
         HOST: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
-        PORT: ${{ secrets.PORT }}
+        PASSWORD: ${{ secrets.PASSWORD }}
         localDir: "./dist/"
         remoteDir: "/home/mmi21g08/public_html/travaux/wra505/dev_front-WRA505D/"
