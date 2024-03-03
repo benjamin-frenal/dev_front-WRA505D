@@ -26,8 +26,8 @@ jobs:
     - name: Envoie vers mon FTP
       uses: wangyucode/sftp-upload-action@v2.0.2
       with:
-        host: ${{ secrets.SERVER }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
+        HOST: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
         localDir: "./dist/"
         remoteDir: "/home/mmi21g08/public_html/travaux/wra505/dev_front-WRA505D/"
