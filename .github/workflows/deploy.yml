@@ -25,6 +25,7 @@ jobs:
           cd public_html/travaux/
           rm -r wra505
           mkdir wra505
+          cd wra505
           git clone git@github.com:benjamin-frenal/dev_front-WRA505D.git
           cd dev_front-WRA505D
           git pull
