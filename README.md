@@ -3,11 +3,11 @@
 # Liens Utiles :
 Accéder à mon [repository back](https://github.com/benjamin-frenal/dev_back-WRA506D)
 
-Capture d'écran de ma [Collection Postman](https://)
+Accès à ma [Collection Postman](https://mmi21g08.mmi-troyes.fr/wra506/postman.json)
 
-Accès via mon VPS : [https://mmi21g08.mmi-troyes.fr/travaux/wra505/dev_front-WRA505D/](https://mmi21g08.mmi-troyes.fr/travaux/wra505/dev_front-WRA505D/).
+Accès via mon VPS : [https://mmi21g08.mmi-troyes.fr/wra505/dev_front-WRA505D/](https://mmi21g08.mmi-troyes.fr/wra505/dev_front-WRA505D/).
 
-# Consignes :
+# Consignes Front :
 
 - [x] Votre site doit être responsive
 
