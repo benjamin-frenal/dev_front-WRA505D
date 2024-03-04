@@ -10,9 +10,9 @@
         <div class="movies">
           <div class="contour" v-for="movie in category.movies" :key="movie['@id']">
             <div class="div" style="color: white">
-              <a :href="'/movie/' + movie.id" class="movie-bloc">
+              <router-link :to="'/movie/' + movie.id" class="movie-bloc">
                 <img :src="movie.miniature" :alt="movie.title">
-              </a>
+              </router-link>
             </div>
             <div class="texte">
               <p>{{movie.title}}</p>

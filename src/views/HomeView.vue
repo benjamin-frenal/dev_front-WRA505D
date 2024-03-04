@@ -3,9 +3,9 @@
     <h1>Bienvenue sur mon Projet Application "Movies" - Benjamin Frenal S5 F</h1>
     <section class="home-categorie">
       <div class="bloc-categories">
-        <a :href="'categorie/' + category.id" class="bloc-categorie" v-for="category in categories" :key="category.id">
+        <router-link :to="'categorie/' + category.id" class="bloc-categorie" v-for="category in categories" :key="category.id">
           {{ category.name }}
-        </a>
+        </router-link>
       </div>
     </section>
     <section class="quatre-films">

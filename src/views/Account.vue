@@ -16,7 +16,7 @@
           </div>
           <div class="buttons">
             <input type="submit" value="Enregistrer" />
-            <a href="/">Annuler</a>
+            <router-link :to="'/'">Annuler</router-link>
           </div>
         </form>
         <button @click="logout">Se déconnecter de tous les appareils</button>

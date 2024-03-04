@@ -9,7 +9,7 @@
             <input type="text" name="name" placeholder="Rechercher un acteur/une actrice" v-model="searchQuery">
             <div class="icons">
               <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-              <a v-if="searchQuery" href="/movies"><i class="fa-solid fa-xmark"></i></a>
+              <router-link :to="'/movies'" v-if="searchQuery"><i class="fa-solid fa-xmark"></i></router-link>
             </div>
           </form>
           <button class="btn-add" @click="showModal = true">Ajouter un acteur <i class="fa-solid fa-plus"></i></button>
