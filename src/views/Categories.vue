@@ -9,7 +9,7 @@
           <input type="text" name="name" placeholder="Rechercher une catégorie" v-model="searchQuery">
           <div class="icons">
             <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-            <a v-if="searchQuery" href="/movies"><i class="fa-solid fa-xmark"></i></a>
+            <router-link v-if="searchQuery" :to="/movies"><i class="fa-solid fa-xmark"></i></>
           </div>
         </form>
           <button class="btn-add" @click="showModal = true">Ajouter une catégorie <i class="fa-solid fa-plus"></i></button>
@@ -19,9 +19,9 @@
     <div class="list-categories">
       <div class="bloc-categories">
         <div v-for="category in data" :key="category.id">
-          <a :href="'categorie/' + category.id" class="bloc-categorie">
+          <router-link :to="'categorie/' + category.id" class="bloc-categorie">
             {{ category.name }}
-          </a>
+          </router-link>
           <div class="options">
             <a class="edit" @click="openEditCategoryModal(category)">Modifier</a>
             <a class="suppr" @click="openDeleteCategoryModal(category.id)">Supprimer</a>
