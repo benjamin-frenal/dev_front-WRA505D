@@ -88,7 +88,7 @@ const handleFocus = (value, field) => {
             <input type="password" id="password" v-model="password"/>
           </div>
           <button type="submit" class="primary-button">Continuer</button>
-          <router-link class="onhref" :to="'/forgot-password'">Mot de passe oublié ?</router-link>
+          <router-link class="onhref" :to="'forgot-password'">Mot de passe oublié ?</router-link>
         </form>
       </div>
     </div>
