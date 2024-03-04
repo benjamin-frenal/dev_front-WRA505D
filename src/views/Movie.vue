@@ -1,7 +1,7 @@
 <template>
   <main v-if="movie">
     <div class="category-details">
-      <img :src="movie.logo" :alt="movie.title" class="logo">
+      <img :src="`${apiBaseUrl}/media/${movie.logo.filePath}`" :alt="movie.title" class="logo">
       <div class="time">
         <img src="@/assets/img/dummies/ad.png" alt="">
         <img src="@/assets/img/dummies/cc.png" alt="">
@@ -55,7 +55,7 @@
       </div>
     </div>
     <div class="movie-background">
-      <img :src="movie.background" :alt="movie.title">
+      <img :src="`${apiBaseUrl}/media/${movie.background.filePath}`" :alt="movie.title">
       <div class="contour"></div>
     </div>
   </main>
@@ -68,6 +68,7 @@
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 let movie = ref(null)
 

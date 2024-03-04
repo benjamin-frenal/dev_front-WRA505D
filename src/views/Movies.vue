@@ -31,7 +31,7 @@
           <div v-if="selectedCategoryId !== 'default'" class="contour" v-for="movie in movies.movies" :key="movie['@id']">
             <div class="div" style="color: white">
               <router-link :to="'movie/' + movie.id" class="movie-bloc">
-                <img :src="movie.miniature" :alt="movie.title">
+                <img :src="`${apiBaseUrl}/media/${movie.miniature.filePath}`" :alt="movie.title">
               </router-link>
             </div>
             <div class="texte">
@@ -42,7 +42,7 @@
           <div v-else class="contour" v-for="movie in movies" :key="movie['@id']">
             <div class="div" style="color: white">
               <router-link :to="'movie/' + movie.id" class="movie-bloc">
-                <img :src="movie.miniature" :alt="movie.title">
+                <img :src="`${apiBaseUrl}/media/${movie.miniature.filePath}`" :alt="movie.title">
               </router-link>
             </div>
             <div class="options">
@@ -231,6 +231,7 @@
 <script setup>
 import {onMounted, ref, computed, watch} from 'vue';
 import axios from 'axios';
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 let categories = ref('');
 let actors = ref('');
