@@ -616,9 +616,9 @@ body{
       position: fixed;
       z-index: 999;
       min-height: 200px;
-      top: 120px;
+      top: 50px;
       right: 15%;
-      bottom: 10%;
+      bottom: 50px;
       left: 15%;
       background-color: rgba(18, 20, 31, 1);
       padding: 50px;

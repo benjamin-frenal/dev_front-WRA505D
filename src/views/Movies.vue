@@ -145,6 +145,21 @@
               </select>
             </div>
           </div>
+          <div class="grid-group">
+            <div class="form-group">
+              <label for="editMiniature">Miniature :</label>
+              <input type="file" ref="newfileInputMiniature" @change="newuploadFileMiniature" />
+            </div>
+            <div class="form-group">
+              <label for="editBackground">Background :</label>
+              <input type="file" ref="newfileInputBackground" @change="newuploadFileBackground" />
+            </div>
+            <div class="form-group">
+              <label for="editLogo">Logo :</label>
+              <input type="file" ref="newfileInputLogo" @change="newuploadFileLogo" />
+            </div>
+          </div>
+          <span class="alert">Pensez à changer les trois images <i>(pour l'instant :)</i></span>
           <button type="submit" class="btn">Valider les modifications</button>
         </form>
         <div class="close" @click="closeModal"><i class="fa-solid fa-xmark"></i></div>
@@ -184,21 +199,7 @@
                 <label for="duration">Durée (en minutes) :</label>
                 <input type="number" id="duration" v-model="newMovie.duration" required>
               </div>
-              <div class="form-group">
-                <label for="miniature">Miniature :</label>
-                <input type="text" id="miniature" v-model="newMovie.miniature" minlength="3" required>
-              </div>
-              <div class="form-group">
-                <label for="background">Background :</label>
-                <input type="text" id="background" v-model="newMovie.background" minlength="3" required>
-              </div>
-            </div>
 
-            <div class="grid-group">
-              <div class="form-group">
-                <label for="logo">Logo :</label>
-                <input type="text" id="logo" v-model="newMovie.logo" required>
-              </div>
               <div class="form-group">
                 <label for="category">Catégorie :</label>
                 <select id="category" v-model="newMovie.category" required>
@@ -217,6 +218,21 @@
               </div>
             </div>
 
+            <div class="grid-group">
+              <div class="form-group">
+                <label for="miniature">Miniature :</label>
+                <input type="file" ref="fileInputMiniature" @change="uploadFileMiniature" />
+              </div>
+              <div class="form-group">
+                <label for="background">Background :</label>
+                <input type="file" ref="fileInputBackground" @change="uploadFileBackground" />
+              </div>
+              <div class="form-group">
+                <label for="logo">Logo :</label>
+                <input type="file" ref="fileInputLogo" @change="uploadFileLogo" />
+              </div>
+            </div>
+
             <button class="btn" type="submit">Ajouter</button>
           </form>
         </div>
@@ -226,6 +242,9 @@
 </template>
 
 <style scoped>
+input[type="file"] {
+  width: 200px;
+}
 </style>
 
 <script setup>
@@ -251,6 +270,202 @@ let editedMovieReleaseDate = ref('');
 let editedMovieActors = ref('');
 let editedMovieCategory = ref('');
 let showPagination = ref(false);
+let editedMovieMiniature = ref('');
+let editedMovieBackground = ref('');
+let editedMovieLogo = ref('');
+
+let fileInputMiniature = ref(null);
+let upload_miniature = ref(null);
+
+let fileInputBackground = ref(null);
+let upload_background = ref(null);
+
+let fileInputLogo = ref(null);
+let upload_logo = ref(null);
+
+let newfileInputMiniature = ref(null);
+let newupload_miniature = ref(null);
+
+let newfileInputBackground = ref(null);
+let newupload_background = ref(null);
+
+let newfileInputLogo = ref(null);
+let newupload_logo = ref(null);
+
+const newMovie = ref({
+  title: '',
+  description: '',
+  duration: '',
+  miniature: '',
+  background: '',
+  logo: '',
+  category: '',
+  actors: [],
+});
+
+const uploadFileMiniature = async () => {
+  const file = fileInputMiniature.value.files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.$router.push('/');
+      return;
+    }
+
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/media_objects`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    upload_miniature.value = "/api/media_objects/" + response.data.id;
+    console.log(upload_miniature.value);
+
+    newMovie.value.miniature = upload_miniature.value;
+  } catch (error) {
+    console.error('Erreur lors du téléchargement du fichier:', error);
+  }
+};
+const uploadFileBackground = async () => {
+  const file = fileInputBackground.value.files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.$router.push('/');
+      return;
+    }
+
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/media_objects`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    upload_background.value = "/api/media_objects/" + response.data.id;
+
+    newMovie.value.background = upload_background.value;
+    console.log(upload_background.value);
+  } catch (error) {
+    console.error('Erreur lors du téléchargement du fichier:', error);
+  }
+};
+const uploadFileLogo = async () => {
+  const file = fileInputLogo.value.files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.$router.push('/');
+      return;
+    }
+
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/media_objects`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    upload_logo.value = "/api/media_objects/" + response.data.id;
+    console.log(upload_logo.value);
+
+    newMovie.value.logo = upload_logo.value;
+  } catch (error) {
+    console.error('Erreur lors du téléchargement du fichier:', error);
+  }
+};
+
+const newuploadFileMiniature = async () => {
+  const file = newfileInputMiniature.value.files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.$router.push('/');
+      return;
+    }
+
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/media_objects`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    newupload_miniature.value = "/api/media_objects/" + response.data.id;
+    console.log(newupload_miniature.value);
+
+    newMovie.value.miniature = newupload_miniature.value;
+  } catch (error) {
+    console.error('Erreur lors du téléchargement du fichier:', error);
+  }
+};
+const newuploadFileBackground = async () => {
+  const file = newfileInputBackground.value.files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.$router.push('/');
+      return;
+    }
+
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/media_objects`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    newupload_background.value = "/api/media_objects/" + response.data.id;
+
+    newMovie.value.background = newupload_background.value;
+    console.log(newupload_background.value);
+  } catch (error) {
+    console.error('Erreur lors du téléchargement du fichier:', error);
+  }
+};
+const newuploadFileLogo = async () => {
+  const file = newfileInputLogo.value.files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.$router.push('/');
+      return;
+    }
+
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/media_objects`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    newupload_logo.value = "/api/media_objects/" + response.data.id;
+    console.log(newupload_logo.value);
+
+    newMovie.value.logo = newupload_logo.value;
+  } catch (error) {
+    console.error('Erreur lors du téléchargement du fichier:', error);
+  }
+};
 
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
@@ -277,16 +492,6 @@ const selectedMovie = computed(() => {
 });
 
 const showAddModal = ref(false);
-const newMovie = ref({
-  title: '',
-  description: '',
-  duration: '',
-  miniature: '/src/assets/img/miniatures/iut.jpeg',
-  background: '/src/assets/img/background/iut.jpeg',
-  logo: '/src/assets/img/logo/iut.png',
-  category: '',
-  actors: [],
-});
 
 const openAddModal = () => {
   showAddModal.value = true;
@@ -306,7 +511,6 @@ const addMovie = async () => {
 
     console.log(newMovie.value);
 
-    // Envoyer les données du nouveau film au serveur
     await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/movies`, newMovie.value, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -390,7 +594,10 @@ const updateMovieDetails = async () => {
         duration: editedMovieDuration.value,
         releaseDate: editedMovieReleaseDate.value,
         category: `/api/categories/${editedMovieCategory.value}`,
-        actors: editedMovieActors.value.map(actorId => `/api/authors/${actorId}`)
+        actors: editedMovieActors.value.map(actorId => `/api/authors/${actorId}`),
+        miniature: newupload_miniature.value,
+        background: newupload_background.value,
+        logo: newupload_logo.value,
       };
 
       await axios.patch(
@@ -405,6 +612,16 @@ const updateMovieDetails = async () => {
       editedMovieReleaseDate.value = '';
       editedMovieCategory.value = '';
       selectedMovieId.value = null;
+      newMovie.value = {
+        title: '',
+        description: '',
+        duration: '',
+        miniature: '',
+        background: '',
+        logo: '',
+        category: '',
+        actors: [],
+      };
       await getMovies();
     } catch (error) {
       console.error('Error updating movie details:', error);
@@ -438,6 +655,9 @@ const toggleDetails = (movieId) => {
     editedMovieReleaseDate.value = formatReleaseDate(selectedMovie.value.releaseDate);
     editedMovieCategory.value = selectedMovie.value.category.id;
     editedMovieActors.value = selectedMovie.value.actors.map(actor => actor.id);
+    editedMovieMiniature.value = selectedMovie.value.miniature;
+    editedMovieBackground.value = selectedMovie.value.background;
+    editedMovieLogo.value = selectedMovie.value.logo;
   } else {
     editedMovieTitle.value = '';
     editedMovieDescription.value = '';
