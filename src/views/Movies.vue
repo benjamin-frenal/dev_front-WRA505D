@@ -15,10 +15,10 @@
         </div>
         <div class="right">
           <form class="search-form" method="get">
-            <input type="text" name="title" placeholder="Rechercher un film" v-model="searchQuery">
+            <input type="text" name="title" placeholder="Rechercher un film" v-model="searchQuery" @input="searchMovies">
             <div class="icons">
-              <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-              <router-link v-if="searchQuery" :to="'/movies'"><i class="fa-solid fa-xmark"></i></router-link>
+              <button type="button" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+              <button v-if="searchQuery" style="border: none; background: none"><i class="fa-solid fa-xmark"></i></button>
             </div>
           </form>
           <button class="btn-add" @click="openAddModal">Ajouter un film <i class="fa-solid fa-plus"></i></button>
@@ -669,6 +669,10 @@ const toggleDetails = (movieId) => {
   }
 };
 
+const searchMovies = () => {
+  getMovies(searchQuery.value);
+};
+
 const getMovies = async () => {
   try {
     const token = localStorage.getItem('token');
@@ -676,9 +680,6 @@ const getMovies = async () => {
       this.$router.push('/');
       return;
     }
-
-    const urlParams = new URLSearchParams(window.location.search);
-    searchQuery.value = urlParams.get('title') || '';
 
     let apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/movies`;
 
@@ -692,7 +693,6 @@ const getMovies = async () => {
 
     if (selectedCategoryId.value !== 'default') {
       apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/categories/${selectedCategoryId.value}`;
-      searchQuery.value = '';
     }
 
     const response = await axios.get(apiUrl, {

@@ -6,10 +6,10 @@
 
         <div class="right">
           <form class="search-form" method="get">
-            <input type="text" name="name" placeholder="Rechercher un acteur/une actrice" v-model="searchQuery">
+            <input type="text" name="name" placeholder="Rechercher un acteur/une actrice" v-model="searchQuery" @input="searchActors">
             <div class="icons">
-              <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-              <router-link :to="'/movies'" v-if="searchQuery"><i class="fa-solid fa-xmark"></i></router-link>
+              <button type="button" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+              <button v-if="searchQuery" style="border: none; background: none"><i class="fa-solid fa-xmark"></i></button>
             </div>
           </form>
           <button class="btn-add" @click="showModal = true">Ajouter un acteur <i class="fa-solid fa-plus"></i></button>
@@ -208,6 +208,10 @@ const closeActorModal = () => {
   fileInput.value.value = null;
 };
 
+const searchActors = () => {
+  getActors(searchQuery.value);
+};
+
 const getActors = async () => {
   try {
     const token = localStorage.getItem('token');
@@ -215,9 +219,6 @@ const getActors = async () => {
       this.$router.push('/');
       return;
     }
-
-    const urlParams = new URLSearchParams(window.location.search);
-    searchQuery.value = urlParams.get('name') || '';
 
     let apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/authors`;
 
