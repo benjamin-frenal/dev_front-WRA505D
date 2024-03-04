@@ -19,10 +19,10 @@
     <div class="list-acteurs">
       <div class="bloc-categories">
         <div v-for="actor in data" :key="actor.id">
-          <a :href="'actor/' + actor.id" class="bloc-categorie">
+          <router-link :to="'actor/' + actor.id" class="bloc-categorie">
             <img v-if="actor.image && actor.image.filePath" :src="`${apiBaseUrl}/media/`+actor.image.filePath" class="image" alt="">
             <div>{{ actor.firstName }} {{ actor.lastName }}</div>
-          </a>
+          </router-link>
           <div class="options">
             <a class="edit" @click="openActorModal(actor.id)">Modifier</a>
             <a class="suppr" @click="openDeleteActorModal(actor.id)">Supprimer</a>
