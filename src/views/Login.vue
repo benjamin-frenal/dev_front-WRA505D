@@ -137,7 +137,9 @@ const handleFocus = (value, field) => {
         background-color: white;
         border-radius: 24px;
         @media screen and (max-width: 767px){
+          width: auto;
           padding: 28px 36px;
+          margin: 42px 20px;
         }
         & span{
           font-size: 14px;

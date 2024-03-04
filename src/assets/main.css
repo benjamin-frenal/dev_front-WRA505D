@@ -181,6 +181,9 @@ body{
     }
     .quatre-films, .quatre-acteurs{
       margin: 40px 55px;
+      @media screen and (max-width: 500px) {
+        margin: 40px 20px;
+      }
       .container-movies{
         .movies{overflow: hidden;
           .movie-bloc{
@@ -457,6 +460,9 @@ body{
           padding: 2px 52px 0 18px;
           height: 36px;
           outline: 0 !important;
+          @media screen and (max-width: 767px){
+            width: 100%;
+          }
         }
         .icons{
           position: absolute;
@@ -479,6 +485,9 @@ body{
     }
     .list-film{
       margin: 0 55px 40px;
+      @media screen and (max-width: 500px){
+        margin: 0 20px 40px;
+      }
       .container-movies{
         .movies{
           overflow: hidden;
@@ -718,6 +727,26 @@ body{
         width: 30px;
         height: 30px;
       }
+      @media screen and (max-width: 767px){
+        left: 0;
+        right: 0;
+        & form {
+          .form-group{
+            flex-direction: column;
+          }
+          input{
+            max-width: 100%;
+          }
+          .grid-group{
+            flex-direction: column;
+            align-items: center;
+          }
+        }
+        & h2 {
+          font-size: 34px;
+        }
+
+      }
     }
     .sur-delete{
       font-family: "Orkney-Light", sans-serif;
@@ -830,6 +859,15 @@ body{
         line-height: 1.6;
         margin-bottom: 56px;
       }
+      @media screen and (max-width: 500px){
+        .buttons {
+          display: flex;
+          flex-direction: column;
+          align-items: start;
+          column-gap: 20px;
+          row-gap: 20px;
+        }
+      }
     }
     .details{
       margin: 40px 75px 0 75px;
@@ -911,6 +949,19 @@ body{
                 display: block;
                 color: white;
               }
+            }
+          }
+        }
+      }
+      @media screen and (max-width: 500px){
+        margin: 0 20px 40px;
+        .flex {
+          flex-direction: column;
+
+          .left, .right {
+            width: 100%;
+            .description {
+              margin-bottom: 0;
             }
           }
         }
