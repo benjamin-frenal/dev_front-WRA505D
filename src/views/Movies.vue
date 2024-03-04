@@ -18,7 +18,7 @@
             <input type="text" name="title" placeholder="Rechercher un film" v-model="searchQuery">
             <div class="icons">
               <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-              <a v-if="searchQuery" href="/movies"><i class="fa-solid fa-xmark"></i></a>
+              <router-link v-if="searchQuery" :to="'/movies'"><i class="fa-solid fa-xmark"></i></router-link>
             </div>
           </form>
           <button class="btn-add" @click="openAddModal">Ajouter un film <i class="fa-solid fa-plus"></i></button>
@@ -30,9 +30,9 @@
         <div class="movies">
           <div v-if="selectedCategoryId !== 'default'" class="contour" v-for="movie in movies.movies" :key="movie['@id']">
             <div class="div" style="color: white">
-              <a :href="'movie/' + movie.id" class="movie-bloc">
+              <router-link :to="'movie/' + movie.id" class="movie-bloc">
                 <img :src="movie.miniature" :alt="movie.title">
-              </a>
+              </router-link>
             </div>
             <div class="texte">
               <p>{{movie.title}}</p>
@@ -41,9 +41,9 @@
           </div>
           <div v-else class="contour" v-for="movie in movies" :key="movie['@id']">
             <div class="div" style="color: white">
-              <a :href="'movie/' + movie.id" class="movie-bloc">
+              <router-link :to="'movie/' + movie.id" class="movie-bloc">
                 <img :src="movie.miniature" :alt="movie.title">
-              </a>
+              </router-link>
             </div>
             <div class="options">
               <a @click="toggleDetails(movie.id)"><i class="fa-solid fa-pen"></i></a>

@@ -88,23 +88,23 @@ const handleFocus = (value, field) => {
             <input type="password" id="password" v-model="password"/>
           </div>
           <button type="submit" class="primary-button">Continuer</button>
-          <a class="onhref" href="/forgot-password">Mot de passe oublié ?</a>
+          <router-link class="onhref" :to="'/forgot-password'">Mot de passe oublié ?</router-link>
         </form>
       </div>
     </div>
     <footer>
       <nav>
         <ul>
-          <li><a href="">Règles de Respect de la Vie Privée</a></li>
-          <li><a href="">Modalités relatives aux cookies</a></li>
-          <li><a href="">Droits Données dans l'UE et au R-U</a></li>
-          <li><a href="">À propos de Disney+</a></li>
-          <li><a href="">Conditions générales d'abonnement</a></li>
-          <li><a href="">Aide</a></li>
-          <li><a href="">Appareils compatibles</a></li>
-          <li><a href="">Qui sommes-nous</a></li>
-          <li><a href="">Publicités ciblées par centres d'intérêt</a></li>
-          <li><a href="">Gérer les préférences de confidentialité</a></li>
+          <li><router-link :to="''">Règles de Respect de la Vie Privée</router-link></li>
+          <li><router-link :to="''">Modalités relatives aux cookies</router-link></li>
+          <li><router-link :to="''">Droits Données dans l'UE et au R-U</router-link></li>
+          <li><router-link :to="''">À propos de Disney+</router-link></li>
+          <li><router-link :to="''">Conditions générales d'abonnement</router-link></li>
+          <li><router-link :to="''">Aide</router-link></li>
+          <li><router-link :to="''">Appareils compatibles</router-link></li>
+          <li><router-link :to="''">Qui sommes-nous</router-link></li>
+          <li><router-link :to="''">Publicités ciblées par centres d'intérêt</router-link></li>
+          <li><router-link :to="''">Gérer les préférences de confidentialité</router-link></li>
           <li>© Disney. Tous droits réservés.</li>
         </ul>
       </nav>
