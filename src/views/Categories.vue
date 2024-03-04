@@ -6,10 +6,10 @@
 
         <div class="right">
           <form class="search-form" method="get">
-          <input type="text" name="name" placeholder="Rechercher une catégorie" v-model="searchQuery">
+            <input type="text" name="name" placeholder="Rechercher une catégorie" v-model="searchQuery" @input="searchCategories">
           <div class="icons">
-            <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-            <router-link v-if="searchQuery" :to="'/movies'"><i class="fa-solid fa-xmark"></i></router-link>
+            <button type="button" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button v-if="searchQuery" style="border: none; background: none"><i class="fa-solid fa-xmark"></i></button>
           </div>
         </form>
           <button class="btn-add" @click="showModal = true">Ajouter une catégorie <i class="fa-solid fa-plus"></i></button>
@@ -95,7 +95,9 @@ onMounted(() => {
   fetchData();
 });
 
-
+const searchCategories = () => {
+  fetchData(searchQuery.value);
+};
 
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
@@ -118,9 +120,6 @@ const fetchData = async () => {
       this.$router.push('/');
       return;
     }
-
-    const urlParams = new URLSearchParams(window.location.search);
-    searchQuery.value = urlParams.get('name') || '';
 
     let apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/categories`;
 
