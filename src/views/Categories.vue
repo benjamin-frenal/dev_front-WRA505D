@@ -9,7 +9,7 @@
           <input type="text" name="name" placeholder="Rechercher une catégorie" v-model="searchQuery">
           <div class="icons">
             <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-            <router-link v-if="searchQuery" :to="/movies"><i class="fa-solid fa-xmark"></i></>
+            <router-link v-if="searchQuery" :to="'/movies'"><i class="fa-solid fa-xmark"></i></router-link>
           </div>
         </form>
           <button class="btn-add" @click="showModal = true">Ajouter une catégorie <i class="fa-solid fa-plus"></i></button>
