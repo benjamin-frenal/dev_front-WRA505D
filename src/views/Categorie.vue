@@ -11,7 +11,7 @@
           <div class="contour" v-for="movie in category.movies" :key="movie['@id']">
             <div class="div" style="color: white">
               <router-link :to="'/movie/' + movie.id" class="movie-bloc">
-                <img :src="movie.miniature" :alt="movie.title">
+                <img :src="`${apiBaseUrl}/media/${movie.miniature.filePath}`" :alt="movie.title">
               </router-link>
             </div>
             <div class="texte">
@@ -32,6 +32,7 @@
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 let category = ref(null)
 
