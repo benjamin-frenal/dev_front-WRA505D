@@ -58,6 +58,15 @@
       grid-template-columns: 1fr;
     }
   }
+  @media screen and (max-width: 500px){
+    h1{
+      margin: 172px 0 50px;
+      font-size: 24px;
+    }
+    body #app .home-categorie {
+      margin: 40px;
+    }
+  }
 </style>
 
 <script setup>
