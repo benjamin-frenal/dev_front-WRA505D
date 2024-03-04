@@ -190,7 +190,7 @@
               </div>
               <div class="form-group">
                 <label for="background">Background :</label>
-                <input type="text" id="background" v-model="newMovie.background"minlength="3" required>
+                <input type="text" id="background" v-model="newMovie.background" minlength="3" required>
               </div>
             </div>
 
