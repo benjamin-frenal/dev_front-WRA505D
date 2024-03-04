@@ -7,6 +7,11 @@ Accès à ma [Collection Postman](https://mmi21g08.mmi-troyes.fr/wra506/postman.
 
 Accès via mon VPS : [https://mmi21g08.mmi-troyes.fr/wra505/dev_front-WRA505D/](https://mmi21g08.mmi-troyes.fr/wra505/dev_front-WRA505D/).
 
+# Connexion à l’application :
+Adresse e-mail : user@mail.com
+
+Mot de passe : test
+
 # Consignes Front :
 
 - [x] Votre site doit être responsive
